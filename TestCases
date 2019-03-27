@@ -1,9 +1,9 @@
 3.1* Extract data from the csv (make different inputs so that it breaks the program)
 3.2* Data access object should be able to 'connect' and retrieve / store data into the CSV_DataBase
 3.3* Access and add/remove the items (and possibly printers)
-3.4* Test inputs that are of the incorrect format and or data type (must handle errors)
+3.4* Test inputs that are of the incorrect format and or data type (must handle errors) **WILDCARD**
 3.4* Compare various objects of different states to one another (example: printer filled with an asset tag vs an empty printer object(this should fail the test case))
-3.5* Click a button that will register a users input (test that the button works, and that if you spam it it doesn't break)
+3.5* Click a button that will register a users input (test that the button works, and that if you spam it, it doesn't break)
 TBD* hasDeficit/getDeficit function will return the correct deficit and handle errors if incorrect data type is entered and or the number is out of range of the common 'int'
 TBD* Stores a file for parsing by the DAO
 TBD* Respective Add/Delete Items/Printers work 'as intended' and will return / remove the corresponding Item / Printer from the CSV DB.
