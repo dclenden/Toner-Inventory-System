@@ -10,6 +10,6 @@ public interface Item {
 	public void setBrand(String brand);
 	public int getMinStock();
 	public void setMinStock(int minStock);
-	public int getQuantity();
-	public void setQuantity(int quantity);
+	public int getCurrentStock();
+	public void setCurrentStock(int quantity);
 }
