@@ -3,33 +3,78 @@
 */
 package InventorySystem;
 
+import java.awt.List;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class CSV_DBIMP {
-	static Printer[] printerList = new PrinterImp[500];
-	static Item[] itemList = new ItemImp[500];
+import javax.swing.JOptionPane;
+
+public class CSV_DBIMP implements CSV_DB{
+	static String printerFilePath = "test"; //= "printers.csv";
+	static String itemFilePath = "test";
+	static Printer[] printerList = new PrinterImp[457];
+	static Item[] itemList = new ItemImp[61];
 	static HashMap<String, Printer> printerMap = new HashMap<>();
 	
+	private Printer what;
+	
 	public static void main(String[] args) {
-		readPrinterCSV();
-		readItemCSV();
-		System.out.println(Arrays.toString(printerList));
+		//storePrinterCSV();
+		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
+		//readPrinterCSV();
+		//readItemCSV();
+		//System.out.println(Arrays.toString(printerList));
+		//System.out.println(printerFilePath);
 		//System.out.println(printerMap.toString());
 		System.out.println(Arrays.toString(itemList));
 		//System.out.println(printerMap.toString());
 	}
-	
+	public CSV_DBIMP(){
+		
+	}
+	public static void storePrinterCSV() {
+		printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
+	    if (printerFilePath == null) {
+	        System.out.println("The user canceled");
+	        System.exit(0);
+	    }
+
+	}
+	public static void storeItemCSV() {
+		itemFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
+	    if (itemFilePath == null) {
+	        System.out.println("The user canceled");
+	        System.exit(0);
+	    }
+
+	}
 	public static void readPrinterCSV() {
 		// The following is adapted from Example 1. Using Buffered Reader and String.split() from https://www.javainterviewpoint.com/how-to-read-and-parse-csv-file-in-java/
 		BufferedReader br = null;
 		int printerCount = 0;
+		File temp;
+	      try
+	      {
+	         temp = new File(printerFilePath);
+	         while(!temp.exists()) {
+		 	    temp.delete();
+	        	storePrinterCSV();
+	            temp = new File(printerFilePath);
+	        	
+	 		 }
+	         
+	      }
+	      catch (Exception e) {
+	         e.printStackTrace();
+	      }
+		//storePrinterCSV();
 		try
 		{
-			br = new BufferedReader(new FileReader("printers.csv"));
+			br = new BufferedReader(new FileReader(printerFilePath));
 			String line = "";
 			br.readLine();
 			while ((line = br.readLine()) != null) 
@@ -56,6 +101,11 @@ public class CSV_DBIMP {
 				}
 			}
 		}
+		
+		catch(ArrayIndexOutOfBoundsException | NumberFormatException ee) {
+			System.out.println("Incorrect file format");
+		}
+		
 		catch(Exception ee)
 		{
 			ee.printStackTrace();
@@ -78,9 +128,24 @@ public class CSV_DBIMP {
 		// The following is adapted from Example 1. Using Buffered Reader and String.split() from https://www.javainterviewpoint.com/how-to-read-and-parse-csv-file-in-java/
 		BufferedReader br = null;
 		int itemCount = 0;
+		File temp;
+	      try
+	      {
+	         temp = new File(itemFilePath);
+	         while(!temp.exists()) {
+		 	    temp.delete();
+	        	storeItemCSV();
+	            temp = new File(itemFilePath);
+	        	
+	 		 }
+	         
+	      }
+	      catch(Exception ee) {
+	    	  ee.printStackTrace();
+	      }
 		try
 		{
-			br = new BufferedReader(new FileReader("Wilmington Toner Database.csv"));
+			br = new BufferedReader(new FileReader(itemFilePath));
 			String line = "";
 			br.readLine();
 			while ((line = br.readLine()) != null) 
@@ -102,10 +167,16 @@ public class CSV_DBIMP {
 				{
 					Item tempItem = new ItemImp(itemDetails[0], itemDetails[1], itemDetails[2]
 							, Integer.parseInt(itemDetails[4]), Integer.parseInt(itemDetails[5]));
+					
 					itemList[itemCount++] = tempItem;
+					
 				}
 			}
 		}
+		catch(ArrayIndexOutOfBoundsException | NumberFormatException ee) {
+			System.out.println("Incorrect file format");
+		}
+
 		catch(Exception ee)
 		{
 			ee.printStackTrace();
@@ -122,5 +193,34 @@ public class CSV_DBIMP {
 				ie.printStackTrace();
 			}
 		}
+	}
+	@Override
+	public List getAllItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List getAllPrinters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Item getItem(Item i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Printer getPrinter(Printer p) {
+		return p;
+	}
+	@Override
+	public void deleteItem(Item i) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void addItem(Item i) {
+		// TODO Auto-generated method stub
+		
 	}
 }

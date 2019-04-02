@@ -9,7 +9,7 @@ public class ItemImp implements Item{
     private String model;
     private int minStock;
     private int curStock;
-	ItemImp(String printerModel, String brand, String model, int minStock, int curStock){
+	public ItemImp(String printerModel, String brand, String model, int minStock, int curStock){
 	    this.printerModel = printerModel;
 	    this.brand = brand;
 	    this.model = model;
@@ -17,26 +17,28 @@ public class ItemImp implements Item{
 	    this.curStock = curStock;
 	}
 	
-	ItemImp(){
+	public ItemImp(){
 		
 	}
 	
 	@Override
-	public boolean hasDeficit(Item i) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean hasDeficit() { //returns if the items have a deficit or if they are in surplus of the min stock
+		boolean hasDeficit = (this.getCurrentStock() < this.getMinStock()) ? true : false;
+		return hasDeficit;
 	}
+	
+	/*
+	 * removed the "UPDATESTOCK" due to the function being too similar to "getStock"
+	 */
 
 	@Override
-	public void updateStock(int num) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getDeficit(Item i) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getDeficit() { //returns the amount of items that are needed to be bought to keep up with the minstock
+        if(this.hasDeficit() == true) {
+        	return Math.abs(this.curStock - this.minStock);
+        }
+        else {
+            return 0; // if returning 0 then there is no deficit	
+        }
 	}
 
 	public String getPrinterModel() {
