@@ -26,15 +26,11 @@ public class CSV_DBIMP implements CSV_DB{
 	public static void main(String[] args) {
 		//storePrinterCSV();
 		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
-		//readPrinterCSV();
+		readPrinterCSV();
 		//readItemCSV();
 		//System.out.println(Arrays.toString(printerList));
 		//System.out.println(printerFilePath);
 		//System.out.println(printerMap.toString());
-		for(int i = 0; i < 61; i++) {
-			addItem(new ItemImp());
-		}
-		System.out.println(itemList[0]);
 		//System.out.println(Arrays.toString(itemList));
 		//System.out.println(printerMap.toString());
 	}
@@ -42,7 +38,7 @@ public class CSV_DBIMP implements CSV_DB{
 		
 	}
 	public static void storePrinterCSV() {
-		printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
+		printerFilePath = JOptionPane.showInputDialog("Please enter printer CSV File Name");
 	    if (printerFilePath == null) {
 	        System.out.println("The user canceled");
 	        System.exit(0);
@@ -50,7 +46,7 @@ public class CSV_DBIMP implements CSV_DB{
 
 	}
 	public static void storeItemCSV() {
-		itemFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
+		itemFilePath = JOptionPane.showInputDialog("Please enter item/toner CSV File Name");
 	    if (itemFilePath == null) {
 	        System.out.println("The user canceled");
 	        System.exit(0);
@@ -109,8 +105,11 @@ public class CSV_DBIMP implements CSV_DB{
 			}
 		}
 		
-		catch(ArrayIndexOutOfBoundsException | NumberFormatException ee) {
-			System.out.println("Incorrect file format");
+		catch(ArrayIndexOutOfBoundsException ee) {
+			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
+		}
+		catch(NumberFormatException e) {
+			throw new NumberFormatException("Incorrect file format"); 
 		}
 		
 		catch(Exception ee)
@@ -181,10 +180,15 @@ public class CSV_DBIMP implements CSV_DB{
 				}
 			}
 		}
-		catch(ArrayIndexOutOfBoundsException | NumberFormatException ee) {
+		/*catch(ArrayIndexOutOfBoundsException | NumberFormatException ee) {
 			System.out.println("Incorrect file format");
+		}*/
+		catch(ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
 		}
-
+        catch(NumberFormatException e) {
+        	throw new NumberFormatException("Incorrect file format");
+        }
 		catch(Exception ee)
 		{
 			ee.printStackTrace();
@@ -228,9 +232,8 @@ public class CSV_DBIMP implements CSV_DB{
 	}
 	//@Override
 	public static void addItem(Item i) {
-        Item a = itemList[0];
         int j = 0;
-		while(a != null) {
+		while(itemList[j] != null) {
         	j++;
         }
 		try {
