@@ -31,5 +31,10 @@ class TestHasDeficit {
 		boolean hasDeficit = item.hasDeficit();
 		assertEquals(true, hasDeficit);
 	}
+	@Test
+	void test4() {
+		ItemImp item = new ItemImp("a", "b", "c", -100, -5);
+		assertThrows(NumberFormatException.class, () -> item.hasDeficit());
+	}
 
 }
