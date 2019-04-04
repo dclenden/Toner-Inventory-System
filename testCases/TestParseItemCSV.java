@@ -2,6 +2,8 @@ package testCases;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Arrays;
+
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
@@ -12,26 +14,38 @@ class TestParseItemCSV {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 	@Test
-	void test() { //test data = printers.csv
+	void testStorePrinterIncorrectSizeOfFile() { //test data = printers - Copy.xlsx
 		//fail("Not yet implemented");
-		CSV_DBIMP csvimp = new CSV_DBIMP();
+		CSV_DBIMP dao = new CSV_DBIMP();
 		//
 		//
-		//csvimp.readPrinterCSV();
-		assertThrows(NumberFormatException.class, () -> csvimp.readItemCSV());
+		dao.storeItemCSV("printersTestOutOfRange.csv"); //the parsing of the file for type Item did not match the 'printer' CSV
+		assertThrows(NumberFormatException.class, () -> dao.readItemCSV());
         //thrown.expectMessage(startsWith("some Message"));
         thrown.expectMessage("Incorrect file format");
-		
 	}
-	/*@Test test data = printers - Copy.xlsx WORKS
-	void test2() {
-		CSV_DBIMP csvimp = new CSV_DBIMP();
+	@Test
+	void testStorePrinterNonCSV() {
+		CSV_DBIMP dao = new CSV_DBIMP();
 		//
 		//
 		//csvimp.readPrinterCSV();
-		assertThrows(ArrayIndexOutOfBoundsException.class, () -> csvimp.readItemCSV());
+		dao.storeItemCSV("Wilmington Toner Database(1).xlsx"); // this non csv file has fewer Columns than what is required
+		assertThrows(ArrayIndexOutOfBoundsException.class, () -> dao.readItemCSV());
         //thrown.expectMessage(startsWith("some Message"));
         thrown.expectMessage("Incorrect file format");
-	}*/
+	}
+
+	@Test
+	void testStorePrinterWorks() { //test data = printers - Copy.xlsx
+		//fail("Not yet implemented");
+		CSV_DBIMP dao = new CSV_DBIMP();
+		//
+		//
+		//csvimp.readPrinterCSV();
+		dao.storeItemCSV("Wilmington Toner Database.csv"); // Exception is never thrown so this passes the testCase
+		dao.readItemCSV();                // if this test failed, it would ask for an input or throw an exception
+		System.out.println(Arrays.toString(dao.printerList));
+	}
 
 }

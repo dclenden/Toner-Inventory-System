@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class PrinterImp implements Printer{
-	private String assetTag;
+	private int assetTag;
 	private String location;
 	private String department;
 	private String manufacturer;
@@ -25,7 +25,7 @@ public class PrinterImp implements Printer{
     public PrinterImp(){
     	
     }
-    public PrinterImp(String assetTag, String location, String department, String manufacturer, String description,
+    public PrinterImp(int assetTag, String location, String department, String manufacturer, String description,
 			String category, String serialNumber) {
 		super();
 		this.assetTag = assetTag;
@@ -39,11 +39,11 @@ public class PrinterImp implements Printer{
 	
     
     @Override
-	public String getAssetTag() {
+	public int getAssetTag() {
 		return assetTag;
 	}
 	@Override
-	public void setAssetTag(String assetTag) {
+	public void setAssetTag(int assetTag) {
 		this.assetTag = assetTag;
 	}
 	@Override

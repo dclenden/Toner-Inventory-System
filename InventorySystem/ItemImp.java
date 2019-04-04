@@ -18,7 +18,11 @@ public class ItemImp implements Item {
 	}
 	
 	public ItemImp(){
-		
+		this.printerModel = "";
+		this.brand = "";
+		this.model = "";
+		this.minStock = 0;
+		this.curStock = 0;
 	}
 	
 	@Override

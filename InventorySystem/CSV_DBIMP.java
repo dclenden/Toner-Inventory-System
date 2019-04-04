@@ -3,7 +3,6 @@
 */
 package InventorySystem;
 
-import java.awt.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,26 +18,38 @@ public class CSV_DBIMP implements CSV_DB{
 	static String itemFilePath = "test";
 	public Printer[] printerList = new PrinterImp[457];
 	public Item[] itemList = new ItemImp[61];
-	static HashMap<String, Printer> printerMap = new HashMap<>();
+	public HashMap<Integer, Printer> printerAccess = new HashMap<>();
+	public HashMap<String, Item> itemAccess = new HashMap<>();
 	
-	private Printer what;
-	private Item what1;
-	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
 		//storePrinterCSV();
 		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
 		//readPrinterCSV();
 		//readItemCSV();
 		CSV_DBIMP dao = new CSV_DBIMP();
-		CSV_DBIMP dao1 = new CSV_DBIMP();
+		//dao.readPrinterCSV();
+		//dao.addItem(new ItemImp("a", "b", "c", 0, 0));
+		//System.out.println(dao.getAllItems());
+	    //dao.deleteItem("c");
+	    //System.out.println(dao.getAllItems());
+		int rand = (int)(Math.random() * 62);
+		Item testItem = new ItemImp();
+		//dao.readPrinterCSV("waht");
+		for(int i = 0; i < dao.itemList.length; i++) {
+		    dao.addItem(testItem);
+		}
+		System.out.println(dao.getAllItems());
+		dao.itemList[rand] = new ItemImp("a", "b", "c", 0, 0);
+		Item tesItem = dao.getItem("c");
+		System.out.println(rand + " " + tesItem);
+	    
+		//CSV_DBIMP dao1 = new CSV_DBIMP();
 		//Item what = new ItemImp();
 		//dao.itemList[0] = what;
 		//System.out.println(dao.itemList[0]);
 		//dao.deleteItem(what);
 		///System.out.println(dao.itemList[0]);
-		dao.readPrinterCSV();
-		System.out.println(Arrays.toString(dao1.printerList));
-		System.out.println(Arrays.toString(dao.printerList));
+		//dao.readPrinterCSV();
 		//dao.addItem(new ItemImp());
 		//dao.getAllItems();
 		//System.out.println(dao.getAllPrinters().toString());
@@ -49,10 +60,12 @@ public class CSV_DBIMP implements CSV_DB{
 		//System.out.println(Arrays.toString(itemList));
 		//System.out.println(printerMap.toString());
 	}
-	public CSV_DBIMP(){
+	
+	public CSV_DBIMP() {
 		
 	}
-	public static void storePrinterCSV() {
+	
+	public void storePrinterCSV() {
 		printerFilePath = JOptionPane.showInputDialog("Please enter printer CSV File Name");
 	    if (printerFilePath == null) {
 	        System.out.println("The user canceled");
@@ -60,7 +73,7 @@ public class CSV_DBIMP implements CSV_DB{
 	    }
 
 	}
-	public static void storeItemCSV() {
+	public void storeItemCSV() {
 		itemFilePath = JOptionPane.showInputDialog("Please enter item/toner CSV File Name");
 	    if (itemFilePath == null) {
 	        System.out.println("The user canceled");
@@ -68,8 +81,16 @@ public class CSV_DBIMP implements CSV_DB{
 	    }
 
 	}
+	
+	public void storePrinterCSV(String filePath) {
+	    printerFilePath = filePath;	
+	}
+	
+	public void storeItemCSV(String filePath) {
+	    itemFilePath = filePath;	
+	}
+	
 	public void readPrinterCSV() {
-		// The following is adapted from Example 1. Using Buffered Reader and String.split() from https://www.javainterviewpoint.com/how-to-read-and-parse-csv-file-in-java/
 		BufferedReader br = null;
 		int printerCount = 0;
 		File temp;
@@ -89,7 +110,6 @@ public class CSV_DBIMP implements CSV_DB{
 	      catch (Exception e) {
 	         e.printStackTrace();
 	      }
-		//storePrinterCSV();
 		try
 		{
 			br = new BufferedReader(new FileReader(printerFilePath));
@@ -98,18 +118,134 @@ public class CSV_DBIMP implements CSV_DB{
 			while ((line = br.readLine()) != null) 
 			{
 				String[] printerDetails = line.split(",");
-				// When the string is split, it will result in an array with the following information in the corresponding index
-				// 0 - AssetTag
-				// 1 - Description
-				// 2 - Category Name
-				// 3 - Location Name
-				// 4 - Serial Number
-				// 5 - Manufacturer
-				// 6 - Division
-				// 7 - Department
-				// 8 - Campus
-				// 9 - Status
-				
+
+				if(printerDetails.length > 0 && !printerDetails[0].isEmpty())
+				{
+					Printer tempPrinter = new PrinterImp(Integer.parseInt(printerDetails[0]), printerDetails[3], printerDetails[7]
+							, printerDetails[5], printerDetails[1], printerDetails[2], printerDetails[4]);
+                    printerAccess.put(Integer.parseInt(printerDetails[0]), tempPrinter);
+					this.printerList[printerCount++] = tempPrinter;
+				}
+			}
+		}
+		
+		catch(ArrayIndexOutOfBoundsException ee) {
+			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
+		}
+		catch(NumberFormatException e) {
+			throw new NumberFormatException("Incorrect file format"); 
+		}
+		
+		catch(Exception ee)
+		{
+			ee.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				br.close();
+			}
+			catch(IOException ie)
+			{
+				System.out.println("Error occured while closing the BufferedReader");
+				ie.printStackTrace();
+			}
+		}
+	}
+	
+	public void readItemCSV() {
+		BufferedReader br = null;
+		int itemCount = 0;
+		File temp;
+	      try
+	      {
+	         temp = new File(itemFilePath);
+	         if(!temp.exists()) {
+		         while(!temp.exists()) {
+			 	    temp.delete();
+		        	storeItemCSV();
+		            temp = new File(itemFilePath);
+		        	
+		 		 }
+	         }
+	      }
+	      catch(Exception ee) {
+	    	  ee.printStackTrace();
+	      }
+		try
+		{
+			br = new BufferedReader(new FileReader(itemFilePath));
+			String line = "";
+			br.readLine();
+			while ((line = br.readLine()) != null) 
+			{
+				String[] itemDetails = line.split(",");
+
+				if(itemDetails.length > 0 && !itemDetails[0].isEmpty())
+				{
+					Item tempItem = new ItemImp(itemDetails[0], itemDetails[1], itemDetails[2]
+							, Integer.parseInt(itemDetails[4]), Integer.parseInt(itemDetails[5]));
+					itemAccess.put(itemDetails[2], tempItem);
+					this.itemList[itemCount++] = tempItem;
+					
+				}
+			}
+		}
+
+		catch(ArrayIndexOutOfBoundsException e) {
+			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
+		}
+        catch(NumberFormatException e) {
+        	throw new NumberFormatException("Incorrect file format");
+        }
+		catch(Exception ee)
+		{
+			ee.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				br.close();
+			}
+			catch(IOException ie)
+			{
+				System.out.println("Error occured while closing the BufferedReader");
+				ie.printStackTrace();
+			}
+		}
+	}
+	/*public void readCSV(String csv) {
+	BufferedReader br = null;
+	File temp;
+	if(csv.equals("printer")) {
+		int printerCount = 0;
+		try
+	      {
+	         temp = new File(printerFilePath);
+	         if(!temp.exists()) {
+		         while(!temp.exists()) {
+			 	    temp.delete();
+		        	storePrinterCSV();
+		            temp = new File(printerFilePath);
+		        	
+		 		 }
+	         }
+	         
+	      }
+	      catch (Exception e) {
+	         e.printStackTrace();
+	      }
+		try
+		{
+			br = new BufferedReader(new FileReader(printerFilePath));
+			String line = "";
+			br.readLine();
+			while ((line = br.readLine()) != null) 
+			{
+				String[] printerDetails = line.split(",");
+
 				if(printerDetails.length > 0 && !printerDetails[0].isEmpty())
 				{
 					Printer tempPrinter = new PrinterImp(printerDetails[0], printerDetails[3], printerDetails[7]
@@ -144,13 +280,9 @@ public class CSV_DBIMP implements CSV_DB{
 			}
 		}
 	}
-	
-	public void readItemCSV() {
-		// The following is adapted from Example 1. Using Buffered Reader and String.split() from https://www.javainterviewpoint.com/how-to-read-and-parse-csv-file-in-java/
-		BufferedReader br = null;
+	else if(csv.equals("item")){
 		int itemCount = 0;
-		File temp;
-	      try
+		try
 	      {
 	         temp = new File(itemFilePath);
 	         if(!temp.exists()) {
@@ -173,18 +305,7 @@ public class CSV_DBIMP implements CSV_DB{
 			while ((line = br.readLine()) != null) 
 			{
 				String[] itemDetails = line.split(",");
-				// When the string is split, it will result in an array with the following information in the corresponding index
-				// 0 - PrinterModel
-				// 1 - Brand
-				// 2 - Model
-				// 3 - Printers
-				// 4 - Min Stock
-				// 5 - Current Stock
-				// 6 - Ordered?
-				// 7 - Needed amount
-				// 8 - Campus
-				// 9 - Status
-				
+
 				if(itemDetails.length > 0 && !itemDetails[0].isEmpty())
 				{
 					Item tempItem = new ItemImp(itemDetails[0], itemDetails[1], itemDetails[2]
@@ -195,9 +316,7 @@ public class CSV_DBIMP implements CSV_DB{
 				}
 			}
 		}
-		/*catch(ArrayIndexOutOfBoundsException | NumberFormatException ee) {
-			System.out.println("Incorrect file format");
-		}*/
+
 		catch(ArrayIndexOutOfBoundsException e) {
 			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
 		}
@@ -221,6 +340,7 @@ public class CSV_DBIMP implements CSV_DB{
 			}
 		}
 	}
+}*/
 	@Override
 	public ArrayList<Item> getAllItems() {
 		ArrayList<Item> allItems = new ArrayList<Item>();
@@ -238,19 +358,69 @@ public class CSV_DBIMP implements CSV_DB{
 		return allPrinters;
 	}
 	@Override
-	public Item getItem(Item i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Item getItem(String item) {
+		Item foundItem = new ItemImp();
+		for(Item i: this.itemList) {
+			if(i != null) {
+				if(i.getModel().equals(item)) {
+			    	foundItem = i;
+			    	break;
+		    	}
+		    }
+			else {
+				foundItem = null;
+			}
+	    }
+		return foundItem;
+		
 	}
 	@Override
-	public Printer getPrinter(Printer p) {
-		return p;
+	public Printer getPrinter(int printerAT) {
+		Printer foundPrinter = new PrinterImp();
+		for(Printer i: this.printerList) {
+			if(i != null) {
+				if(i.getAssetTag() == printerAT) {
+					foundPrinter = i;
+			    	break;
+		    	}
+		    }
+			else {
+				foundPrinter = null;
+			}
+	    }
+		return foundPrinter;
 	}
-	@Override
-	public void deleteItem(Item j) {
+	public boolean isPrinterListEmpty() {
+		boolean isEmpty = true;
+		for(int i = 0; i < printerList.length; i++) {
+			if (printerList[i] != null) {
+				isEmpty = false;
+			}
+					
+		}
+		return isEmpty;
+	}
+	public boolean isItemListEmpty() {
+		boolean isEmpty = true;
 		for(int i = 0; i < itemList.length; i++) {
-			if(itemList[i] == j) {
-				itemList[i] = null;
+			if (itemList[i] != null) {
+				isEmpty = false;
+			}
+					
+		}
+		return isEmpty;
+	}
+	@Override
+	public void deleteItem(String j) {
+		if(this.isItemListEmpty() == true) {
+			throw new ArrayIndexOutOfBoundsException("The item list is empty");
+		}
+		for(int i = 0; i < this.itemList.length; i++) {
+			if(this.itemList[i] != null) {
+				if(this.itemList[i].getModel().equals(j)) {
+					this.itemList[i] = null;
+					break;
+				}
 			}
 		}
 	}

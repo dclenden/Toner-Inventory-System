@@ -3,8 +3,8 @@ package InventorySystem;
 import java.util.ArrayList;
 
 public interface Printer {
-    public String getAssetTag();
-	public void setAssetTag(String a);
+    public int getAssetTag();
+	public void setAssetTag(int a);
 	public String getLocation();
 	public void setLocation(String a);
 	public String getDepartment();

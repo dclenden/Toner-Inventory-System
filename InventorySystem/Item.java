@@ -12,4 +12,6 @@ public interface Item {
 	public void setMinStock(int minStock);
 	public int getCurrentStock();
 	public void setCurrentStock(int quantity);
+	public String getModel();
+	public void setModel(String model);
 }

@@ -1,0 +1,5 @@
+DeviceName,IPv4Address,LastCommunicationTime,SerialNumber,PageCount,BlackCartridge,ColorCartridge
+rm259-printer,1.2.3.4,3:00 PM,3f3kasl,1560,80,0
+rm260-printer,1.2.3.5,4:38 AM,3f3kas1,5558,8,85
+rm261-printer,1.2.3.6,8:00 PM,3f3kas3,4564,76,85
+rm262-printer,1.2.3.7,8:33 AM,3f3kas5,850,99,5
