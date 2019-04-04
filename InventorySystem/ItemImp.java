@@ -3,7 +3,7 @@
 */
 package InventorySystem;
 
-public class ItemImp implements Item{
+public class ItemImp implements Item {
     private String printerModel;
     private String brand;
     private String model;

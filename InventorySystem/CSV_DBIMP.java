@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -16,8 +17,8 @@ import javax.swing.JOptionPane;
 public class CSV_DBIMP implements CSV_DB{
 	static String printerFilePath = "test"; //= "printers.csv";
 	static String itemFilePath = "test";
-	static Printer[] printerList = new PrinterImp[457];
-	static Item[] itemList = new ItemImp[61];
+	public Printer[] printerList = new PrinterImp[457];
+	public Item[] itemList = new ItemImp[61];
 	static HashMap<String, Printer> printerMap = new HashMap<>();
 	
 	private Printer what;
@@ -26,8 +27,22 @@ public class CSV_DBIMP implements CSV_DB{
 	public static void main(String[] args) {
 		//storePrinterCSV();
 		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
-		readPrinterCSV();
+		//readPrinterCSV();
 		//readItemCSV();
+		CSV_DBIMP dao = new CSV_DBIMP();
+		CSV_DBIMP dao1 = new CSV_DBIMP();
+		//Item what = new ItemImp();
+		//dao.itemList[0] = what;
+		//System.out.println(dao.itemList[0]);
+		//dao.deleteItem(what);
+		///System.out.println(dao.itemList[0]);
+		dao.readPrinterCSV();
+		System.out.println(Arrays.toString(dao1.printerList));
+		System.out.println(Arrays.toString(dao.printerList));
+		//dao.addItem(new ItemImp());
+		//dao.getAllItems();
+		//System.out.println(dao.getAllPrinters().toString());
+		//System.out.println(dao.getAllItems().toString());
 		//System.out.println(Arrays.toString(printerList));
 		//System.out.println(printerFilePath);
 		//System.out.println(printerMap.toString());
@@ -53,7 +68,7 @@ public class CSV_DBIMP implements CSV_DB{
 	    }
 
 	}
-	public static void readPrinterCSV() {
+	public void readPrinterCSV() {
 		// The following is adapted from Example 1. Using Buffered Reader and String.split() from https://www.javainterviewpoint.com/how-to-read-and-parse-csv-file-in-java/
 		BufferedReader br = null;
 		int printerCount = 0;
@@ -100,7 +115,7 @@ public class CSV_DBIMP implements CSV_DB{
 					Printer tempPrinter = new PrinterImp(printerDetails[0], printerDetails[3], printerDetails[7]
 							, printerDetails[5], printerDetails[1], printerDetails[2], printerDetails[4]);
                     printerMap.put(printerDetails[0], tempPrinter);
-					printerList[printerCount++] = tempPrinter;
+					this.printerList[printerCount++] = tempPrinter;
 				}
 			}
 		}
@@ -130,7 +145,7 @@ public class CSV_DBIMP implements CSV_DB{
 		}
 	}
 	
-	public static void readItemCSV() {
+	public void readItemCSV() {
 		// The following is adapted from Example 1. Using Buffered Reader and String.split() from https://www.javainterviewpoint.com/how-to-read-and-parse-csv-file-in-java/
 		BufferedReader br = null;
 		int itemCount = 0;
@@ -175,7 +190,7 @@ public class CSV_DBIMP implements CSV_DB{
 					Item tempItem = new ItemImp(itemDetails[0], itemDetails[1], itemDetails[2]
 							, Integer.parseInt(itemDetails[4]), Integer.parseInt(itemDetails[5]));
 					
-					itemList[itemCount++] = tempItem;
+					this.itemList[itemCount++] = tempItem;
 					
 				}
 			}
@@ -207,14 +222,20 @@ public class CSV_DBIMP implements CSV_DB{
 		}
 	}
 	@Override
-	public List getAllItems() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Item> getAllItems() {
+		ArrayList<Item> allItems = new ArrayList<Item>();
+		for(Item a: itemList) {
+			allItems.add(a);
+		}
+		return allItems;
 	}
 	@Override
-	public List getAllPrinters() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Printer> getAllPrinters() {
+		ArrayList<Printer> allPrinters = new ArrayList<Printer>();
+		for(Printer a: printerList) {
+			allPrinters.add(a);
+		}
+		return allPrinters;
 	}
 	@Override
 	public Item getItem(Item i) {
@@ -226,12 +247,15 @@ public class CSV_DBIMP implements CSV_DB{
 		return p;
 	}
 	@Override
-	public void deleteItem(Item i) {
-		// TODO Auto-generated method stub
-		
+	public void deleteItem(Item j) {
+		for(int i = 0; i < itemList.length; i++) {
+			if(itemList[i] == j) {
+				itemList[i] = null;
+			}
+		}
 	}
 	//@Override
-	public static void addItem(Item i) {
+	public void addItem(Item i) {
         int j = 0;
 		while(itemList[j] != null) {
         	j++;
