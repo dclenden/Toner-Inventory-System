@@ -1,6 +1,6 @@
 package testCases;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 
@@ -14,7 +14,7 @@ class TestParseItemCSV {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 	@Test
-	void testStorePrinterIncorrectSizeOfFile() { //test data = printers - Copy.xlsx
+	void testReadItemIncorrectSizeOfFile() { //test data = printers - Copy.xlsx
 		//fail("Not yet implemented");
 		CSV_DBIMP dao = new CSV_DBIMP();
 		//
@@ -25,7 +25,7 @@ class TestParseItemCSV {
         thrown.expectMessage("Incorrect file format");
 	}
 	@Test
-	void testStorePrinterNonCSV() {
+	void testReadItemNonCSV() {
 		CSV_DBIMP dao = new CSV_DBIMP();
 		//
 		//
@@ -37,7 +37,7 @@ class TestParseItemCSV {
 	}
 
 	@Test
-	void testStorePrinterWorks() { //test data = printers - Copy.xlsx
+	void testReadItems() { //test data = printers - Copy.xlsx
 		//fail("Not yet implemented");
 		CSV_DBIMP dao = new CSV_DBIMP();
 		//
@@ -45,6 +45,7 @@ class TestParseItemCSV {
 		//csvimp.readPrinterCSV();
 		dao.storeItemCSV("Wilmington Toner Database.csv"); // Exception is never thrown so this passes the testCase
 		dao.readItemCSV();                // if this test failed, it would ask for an input or throw an exception
+		assertEquals(false, dao.needInput);
 		System.out.println(Arrays.toString(dao.printerList));
 	}
 

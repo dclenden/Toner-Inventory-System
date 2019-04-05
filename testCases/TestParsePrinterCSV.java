@@ -18,7 +18,7 @@ class TestParsePrinterCSV {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 	@Test
-	void testStorePrinterIncorrectSizeOfFile() { //test data = printers - Copy.xlsx
+	void testReadPrinterIncorrectSizeOfFile() { //test data = printers - Copy.xlsx
 		//fail("Not yet implemented");
 		CSV_DBIMP dao = new CSV_DBIMP();
 		//
@@ -30,7 +30,7 @@ class TestParsePrinterCSV {
         thrown.expectMessage("Incorrect file format");
 	}
 	@Test
-	void testStorePrinterNonCSV() {
+	void testReadPrinterNonCSV() {
 		CSV_DBIMP dao = new CSV_DBIMP();
 		//
 		//
@@ -42,15 +42,17 @@ class TestParsePrinterCSV {
 	}
 
 	@Test
-	void testStorePrinterWorks() { //test data = printers - Copy.xlsx
+	void testReadPrinterWorks() { //test data = printers - Copy.xlsx
 		//fail("Not yet implemented");
 		CSV_DBIMP dao = new CSV_DBIMP();
 		//
 		//
 		//csvimp.readPrinterCSV();
+		int i = 0;
 		dao.storePrinterCSV("printers.csv"); // Exception is never thrown so this passes the testCase
 		dao.readPrinterCSV();                // if this test failed, it would ask for an input or throw an exception
-		System.out.println(Arrays.toString(dao.printerList));
+		assertEquals(false, dao.needInput);
+		//System.out.println(Arrays.toString(dao.printerList));
 	}
 
 }

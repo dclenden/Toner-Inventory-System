@@ -14,7 +14,7 @@ import InventorySystem.PrinterImp;
 class TestGetPrinter {
 
 	@Test
-	void testWhenPrinterListIsFull() {
+	void testGetPrinter() {
 		CSV_DBIMP dao = new CSV_DBIMP();
 		int rand = (int)(Math.random() * dao.printerList.length);
 		Printer testPrinter = new PrinterImp();
@@ -27,10 +27,9 @@ class TestGetPrinter {
 		assertEquals(expectedResult, dao.getPrinter(14321));
 	}
 	@Test
-	void testWhenPrinterListIsEmpty() {
+	void testWhenPrinterNotInList() {
 		CSV_DBIMP dao = new CSV_DBIMP();
-		Printer expectedResult = null;
-		assertEquals(expectedResult, dao.getPrinter(14321));
+		assertEquals(null, dao.getPrinter(14321));
 	}
 
 }

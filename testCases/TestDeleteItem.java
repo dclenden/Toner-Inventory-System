@@ -11,7 +11,7 @@ import InventorySystem.ItemImp;
 class TestDeleteItem {
 
 	@Test
-	void testWhenItemIsIndex1() {
+	void testWhenItemIsIndexFirstItem() {
 		//fail("Not yet implemented");
 		Item testItem = new ItemImp("printerModel", "brand", "HX756", 0, 0);
 		CSV_DBIMP dao = new CSV_DBIMP();

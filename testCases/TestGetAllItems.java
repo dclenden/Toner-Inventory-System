@@ -34,7 +34,8 @@ class TestGetAllItems {
 			allItems.add(i);
 		}
 		int rand = (int)(Math.random() * dao.itemList.length); //random item being removed
-		allItems.remove(rand);
+		//allItems.remove(rand);
+		dao.itemList[rand] = null;
 		assertNotEquals(allItems, dao.getAllPrinters());
 	}
 

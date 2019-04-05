@@ -15,7 +15,7 @@ import InventorySystem.Printer;
 class TestGetAllPrinters {
 
 	@Test
-	void testGetAllPrintersWorks() {
+	void testGetAllPrinters() {
 		//fail("Not yet implemented");
 		CSV_DBIMP dao = new CSV_DBIMP();
 		ArrayList<Printer> allPrinters = new ArrayList<>();

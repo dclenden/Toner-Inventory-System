@@ -14,6 +14,7 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 public class CSV_DBIMP implements CSV_DB{
+	public boolean needInput = false;
 	static String printerFilePath = "test"; //= "printers.csv";
 	static String itemFilePath = "test";
 	public Printer[] printerList = new PrinterImp[457];
@@ -66,6 +67,7 @@ public class CSV_DBIMP implements CSV_DB{
 	}
 	
 	public void storePrinterCSV() {
+		needInput = true;
 		printerFilePath = JOptionPane.showInputDialog("Please enter printer CSV File Name");
 	    if (printerFilePath == null) {
 	        System.out.println("The user canceled");
@@ -74,6 +76,7 @@ public class CSV_DBIMP implements CSV_DB{
 
 	}
 	public void storeItemCSV() {
+		needInput = true;
 		itemFilePath = JOptionPane.showInputDialog("Please enter item/toner CSV File Name");
 	    if (itemFilePath == null) {
 	        System.out.println("The user canceled");

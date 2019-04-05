@@ -36,9 +36,8 @@ class TestGetItem {
 	void testWhenItemNotInList() {
 		//fail("Not yet implemented");
 		CSV_DBIMP dao = new CSV_DBIMP();
-		System.out.println(Arrays.toString(dao.itemList));
-	    Item expectedResult = null;
-		assertEquals(expectedResult, dao.getItem("c"));
+		//System.out.println(Arrays.toString(dao.itemList));
+		assertEquals(null, dao.getItem("c"));
 	}
 
 }
