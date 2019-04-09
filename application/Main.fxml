@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <children>
+      <Label fx:id="msgWelcome" alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="27.0" prefWidth="976.0" text="Welcome!" />
+      <TableView fx:id="printerTable" layoutX="14.0" layoutY="257.0" prefHeight="409.0" prefWidth="910.0">
+        <columns>
+          <TableColumn fx:id="assetTag" prefWidth="96.0" text="asset tag" />
+          <TableColumn fx:id="plocation" minWidth="0.0" prefWidth="174.0" text="location" />
+            <TableColumn fx:id="dept" prefWidth="114.0" text="department" />
+            <TableColumn fx:id="manufacturer" prefWidth="91.0" text="manufacturer" />
+            <TableColumn fx:id="description" prefWidth="169.0" text="description" />
+            <TableColumn fx:id="category" prefWidth="130.0" text="category" />
+            <TableColumn fx:id="serialNumber" prefWidth="135.0" text="serial #" />
+        </columns>
+      </TableView>
+      <Button fx:id="deleteButton" layoutX="619.0" layoutY="155.0" mnemonicParsing="false" onAction="#buttonHandling" text="Delete" />
+   </children>
+</AnchorPane>

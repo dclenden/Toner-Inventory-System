@@ -2,8 +2,10 @@ package InventorySystem;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.IntegerProperty;
+
 public interface Printer {
-    public int getAssetTag();
+    public Integer getAssetTag();
 	public void setAssetTag(int a);
 	public String getLocation();
 	public void setLocation(String a);

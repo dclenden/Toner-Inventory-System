@@ -3,96 +3,101 @@
 */
 package InventorySystem;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class PrinterImp implements Printer{
-	private int assetTag;
-	private String location;
-	private String department;
-	private String manufacturer;
-	private String description;
-	private String category;
-	private String serialNumber;
+	private IntegerProperty assetTag;
+	private SimpleStringProperty location;
+	private SimpleStringProperty department;
+	private SimpleStringProperty manufacturer;
+	private SimpleStringProperty description;
+	private SimpleStringProperty category;
+	private SimpleStringProperty serialNumber;
 	private ArrayList<String> compatibleToners;
 	public static void main(String[] args) {
 		//readPrinterCSV();
 	}
     public PrinterImp(){
-    	
+    	this.assetTag = new SimpleIntegerProperty(0);
+		this.location = new SimpleStringProperty("");
+		this.department = new SimpleStringProperty("");
+		this.manufacturer = new SimpleStringProperty("");
+		this.description = new SimpleStringProperty("");
+		this.category = new SimpleStringProperty("");
+		this.serialNumber = new SimpleStringProperty("");
     }
-    public PrinterImp(int assetTag, String location, String department, String manufacturer, String description,
+    public PrinterImp(Integer assetTag, String location, String department, String manufacturer, String description,
 			String category, String serialNumber) {
 		super();
-		this.assetTag = assetTag;
-		this.location = location;
-		this.department = department;
-		this.manufacturer = manufacturer;
-		this.description = description;
-		this.category = category;
-		this.serialNumber = serialNumber;
+		this.assetTag = new SimpleIntegerProperty(assetTag);
+		this.location = new SimpleStringProperty(location);
+		this.department = new SimpleStringProperty(department);
+		this.manufacturer = new SimpleStringProperty(manufacturer);
+		this.description = new SimpleStringProperty(description);
+		this.category = new SimpleStringProperty(category);
+		this.serialNumber = new SimpleStringProperty(serialNumber);
 	}
 	
     
     @Override
-	public int getAssetTag() {
-		return assetTag;
+	public Integer getAssetTag() {
+		return assetTag.get();
 	}
 	@Override
 	public void setAssetTag(int assetTag) {
-		this.assetTag = assetTag;
+		this.assetTag = new SimpleIntegerProperty(assetTag);
 	}
 	@Override
 	public String getLocation() {
-		return location;
+		return location.get();
 	}
 	@Override
 	public void setLocation(String location) {
-		this.location = location;
+		this.location = new SimpleStringProperty(location);
 	}
 	@Override
 	public String getDepartment() {
-		return department;
+		return department.get();
 	}
 	@Override
 	public void setDepartment(String department) {
-		this.department = department;
+		this.department = new SimpleStringProperty(department);
 	}
 	@Override
 	public String getManufacturer() {
-		return manufacturer;
+		return manufacturer.get();
 	}
 	@Override
 	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+		this.manufacturer = new SimpleStringProperty(manufacturer);
 	}
 	@Override
 	public String getDescription() {
-		return description;
+		return description.get();
 	}
 	@Override
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = new SimpleStringProperty(description);
 	}
 	@Override
 	public String getCategory() {
-		return category;
+		return category.get();
 	}
 	@Override
 	public void setCategory(String category) {
-		this.category = category;
+		this.category = new SimpleStringProperty(category);
 	}
 	@Override
 	public String getSerialNumber() {
-		return serialNumber;
+		return serialNumber.get();
 	}
 	@Override
 	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
+		this.serialNumber = new SimpleStringProperty(serialNumber);
 	}
 	@Override
 	public ArrayList<String> getCompatibleToners(Toner t) {
