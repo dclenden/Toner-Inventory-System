@@ -30,8 +30,6 @@
             <TableColumn fx:id="curStock" prefWidth="78.0" text="cur stock" />
         </columns>
       </TableView>
-      <Button fx:id="addItemView" layoutX="655.0" layoutY="295.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="editItems" />
-      <Button fx:id="pullCSVs" layoutX="655.0" layoutY="350.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="Pull Data" />
-      <Button fx:id="addCSVview" layoutX="655.0" layoutY="415.0" mnemonicParsing="false" onAction="#buttonHandling" text="addCSV" />
+      <Button fx:id="addItemView" layoutX="829.0" layoutY="281.0" mnemonicParsing="false" onAction="#addItemScene" text="addItems" />
    </children>
 </AnchorPane>

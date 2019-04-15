@@ -18,7 +18,7 @@ public class CSV_DBIMP implements CSV_DB{
 	static String printerFilePath = "test"; //= "printers.csv";
 	static String itemFilePath = "test";
 	public Printer[] printerList = new PrinterImp[457];
-	public Item[] itemList = new ItemImp[61];
+	public Item[] itemList = new ItemImp[62];
 	public HashMap<Integer, Printer> printerAccess = new HashMap<>();
 	public HashMap<String, Item> itemAccess = new HashMap<>();
 	

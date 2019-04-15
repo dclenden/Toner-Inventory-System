@@ -3,31 +3,35 @@
 */
 package InventorySystem;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class ItemImp implements Item {
-    private String printerModel;
-    private String brand;
-    private String model;
-    private int minStock;
-    private int curStock;
+    private SimpleStringProperty printerModel;
+    private SimpleStringProperty brand;
+    private SimpleStringProperty model;
+    private IntegerProperty minStock;
+    private IntegerProperty curStock;
 	public ItemImp(String printerModel, String brand, String model, int minStock, int curStock){
-	    this.printerModel = printerModel;
-	    this.brand = brand;
-	    this.model = model;
-	    this.minStock = minStock;
-	    this.curStock = curStock;
+	    this.printerModel = new SimpleStringProperty(printerModel);
+	    this.brand = new SimpleStringProperty(brand);
+	    this.model = new SimpleStringProperty(model);
+	    this.minStock = new SimpleIntegerProperty(minStock);
+	    this.curStock = new SimpleIntegerProperty(curStock);
 	}
 	
 	public ItemImp(){
-		this.printerModel = "";
-		this.brand = "";
-		this.model = "";
-		this.minStock = 0;
-		this.curStock = 0;
+		this.printerModel = new SimpleStringProperty("");
+		this.brand = new SimpleStringProperty("");
+		this.model = new SimpleStringProperty("");
+		this.minStock = new SimpleIntegerProperty(0);
+		this.curStock = new SimpleIntegerProperty(0);
 	}
 	
 	@Override
 	public boolean hasDeficit() { //returns if the items have a deficit or if they are in surplus of the min stock
-        if(this.minStock < 0 || this.curStock < 0) {
+        if(this.minStock.get() < 0 || this.curStock.get() < 0) {
         	throw new NumberFormatException();
         }
 		boolean hasDeficit = (this.getCurrentStock() < this.getMinStock()) ? true : false;
@@ -41,7 +45,7 @@ public class ItemImp implements Item {
 	@Override
 	public int getDeficit() { //returns the amount of items that are needed to be bought to keep up with the minstock
 		if(this.hasDeficit() == true) {
-        	return Math.abs(this.curStock - this.minStock);
+        	return Math.abs(this.curStock.get() - this.minStock.get());
         }
         else {
             return 0; // if returning 0 then there is no deficit	
@@ -49,43 +53,43 @@ public class ItemImp implements Item {
 	}
 
 	public String getPrinterModel() {
-		return printerModel;
+		return printerModel.get();
 	}
 
 	public void setPrinterModel(String printerModel) {
-		this.printerModel = printerModel;
+		this.printerModel = new SimpleStringProperty(printerModel);
 	}
 
 	public String getBrand() {
-		return brand;
+		return brand.get();
 	}
 
 	public void setBrand(String brand) {
-		this.brand = brand;
+		this.brand = new SimpleStringProperty(brand);
 	}
 
 	public String getModel() {
-		return model;
+		return model.get();
 	}
 
 	public void setModel(String model) {
-		this.model = model;
+		this.model = new SimpleStringProperty(model);
 	}
 
 	public int getMinStock() {
-		return minStock;
+		return minStock.get();
 	}
 
 	public void setMinStock(int minStock) {
-		this.minStock = minStock;
+		this.minStock = new SimpleIntegerProperty(minStock);
 	}
 
 	public int getCurrentStock() {
-		return curStock;
+		return curStock.get();
 	}
 
 	public void setCurrentStock(int curStock) {
-		this.curStock = curStock;
+		this.curStock = new SimpleIntegerProperty(curStock);
 	}
 
 	@Override
