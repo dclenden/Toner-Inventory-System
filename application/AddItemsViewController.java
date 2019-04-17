@@ -50,7 +50,7 @@ public class AddItemsViewController implements Initializable{
 	public ObservableList<Item> itemList = MainController.itemList;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		// creates a table to easily view the data from each item in the itemList array
 		printerModel.setCellValueFactory(new PropertyValueFactory<Item, String>("printerModel"));
 		brand.setCellValueFactory(new PropertyValueFactory<Item, String>("brand"));
 		model.setCellValueFactory(new PropertyValueFactory<Item, String>("model"));
@@ -62,21 +62,21 @@ public class AddItemsViewController implements Initializable{
 	
 	@FXML
 	public void buttonHandling() {
+		//adds item to the table and dao
 		addItemButton.setOnAction(e-> {
 			Item selectedItem = new ItemImp(textFieldprinterModel.getText(), textFieldbrand.getText(), textFieldmodel.getText()
 					, Integer.valueOf(textFieldminStock.getText()), Integer.valueOf(textFieldcurStock.getText()));
 			MainController.dao.addItem(selectedItem);
 			itemTable.getItems().add(selectedItem);
 		});
+		//deletes item from table and dao
 		deleteButton.setOnAction(e-> {
 			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
-//			if(selectedItem instanceof Printer) {
-//			    printerTable.getItems().remove(selectedItem);
-//			}
 			MainController.dao.deleteItem(selectedItem.getModel());
 			itemTable.getItems().remove(selectedItem);
 			System.out.println(selectedItem);
 		});
+		//returns you to the mainView form
 		returnButton.setOnAction(e->{
 			try {
 				//Stage primaryStage = new Stage();

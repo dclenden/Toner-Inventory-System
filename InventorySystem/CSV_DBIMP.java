@@ -21,51 +21,51 @@ public class CSV_DBIMP implements CSV_DB{
 	public Item[] itemList = new ItemImp[62];
 	public HashMap<Integer, Printer> printerAccess = new HashMap<>();
 	public HashMap<String, Item> itemAccess = new HashMap<>();
-	
+	//main method was created for development testing
 	public static void main(String[] args) throws IOException{
-		//storePrinterCSV();
-		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
-		//readPrinterCSV();
-		//readItemCSV();
-		CSV_DBIMP dao = new CSV_DBIMP();
-		//dao.readPrinterCSV();
-		//dao.addItem(new ItemImp("a", "b", "c", 0, 0));
-		//System.out.println(dao.getAllItems());
-	    //dao.deleteItem("c");
-	    //System.out.println(dao.getAllItems());
-		int rand = (int)(Math.random() * 62);
-		Item testItem = new ItemImp();
-		//dao.readPrinterCSV("waht");
-		for(int i = 0; i < dao.itemList.length; i++) {
-		    dao.addItem(testItem);
-		}
-		System.out.println(dao.getAllItems());
-		dao.itemList[rand] = new ItemImp("a", "b", "c", 0, 0);
-		Item tesItem = dao.getItem("c");
-		System.out.println(rand + " " + tesItem);
-	    
-		//CSV_DBIMP dao1 = new CSV_DBIMP();
-		//Item what = new ItemImp();
-		//dao.itemList[0] = what;
-		//System.out.println(dao.itemList[0]);
-		//dao.deleteItem(what);
-		///System.out.println(dao.itemList[0]);
-		//dao.readPrinterCSV();
-		//dao.addItem(new ItemImp());
-		//dao.getAllItems();
-		//System.out.println(dao.getAllPrinters().toString());
-		//System.out.println(dao.getAllItems().toString());
-		//System.out.println(Arrays.toString(printerList));
-		//System.out.println(printerFilePath);
-		//System.out.println(printerMap.toString());
-		//System.out.println(Arrays.toString(itemList));
-		//System.out.println(printerMap.toString());
+//		//storePrinterCSV();
+//		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
+//		//readPrinterCSV();
+//		//readItemCSV();
+//		CSV_DBIMP dao = new CSV_DBIMP();
+//		//dao.readPrinterCSV();
+//		//dao.addItem(new ItemImp("a", "b", "c", 0, 0));
+//		//System.out.println(dao.getAllItems());
+//	    //dao.deleteItem("c");
+//	    //System.out.println(dao.getAllItems());
+//		int rand = (int)(Math.random() * 62);
+//		Item testItem = new ItemImp();
+//		//dao.readPrinterCSV("waht");
+//		for(int i = 0; i < dao.itemList.length; i++) {
+//		    dao.addItem(testItem);
+//		}
+//		System.out.println(dao.getAllItems());
+//		dao.itemList[rand] = new ItemImp("a", "b", "c", 0, 0);
+//		Item tesItem = dao.getItem("c");
+//		System.out.println(rand + " " + tesItem);
+//	    
+//		//CSV_DBIMP dao1 = new CSV_DBIMP();
+//		//Item what = new ItemImp();
+//		//dao.itemList[0] = what;
+//		//System.out.println(dao.itemList[0]);
+//		//dao.deleteItem(what);
+//		///System.out.println(dao.itemList[0]);
+//		//dao.readPrinterCSV();
+//		//dao.addItem(new ItemImp());
+//		//dao.getAllItems();
+//		//System.out.println(dao.getAllPrinters().toString());
+//		//System.out.println(dao.getAllItems().toString());
+//		//System.out.println(Arrays.toString(printerList));
+//		//System.out.println(printerFilePath);
+//		//System.out.println(printerMap.toString());
+//		//System.out.println(Arrays.toString(itemList));
+//		//System.out.println(printerMap.toString());
 	}
 	
 	public CSV_DBIMP() {
 		
 	}
-	
+	//popup window to enter CSV file (this may get scrapped)
 	public void storePrinterCSV() {
 		needInput = true;
 		printerFilePath = JOptionPane.showInputDialog("Please enter printer CSV File Name");
@@ -75,6 +75,7 @@ public class CSV_DBIMP implements CSV_DB{
 	    }
 
 	}
+	//popup window to enter CSV file (this may get scrapped)
 	public void storeItemCSV() {
 		needInput = true;
 		itemFilePath = JOptionPane.showInputDialog("Please enter item/toner CSV File Name");
@@ -92,7 +93,7 @@ public class CSV_DBIMP implements CSV_DB{
 	public void storeItemCSV(String filePath) {
 	    itemFilePath = filePath;	
 	}
-	
+	//reads printers from CSV and assigns them to array associated with that type of object
 	public void readPrinterCSV() {
 		BufferedReader br = null;
 		int printerCount = 0;
@@ -156,7 +157,7 @@ public class CSV_DBIMP implements CSV_DB{
 			}
 		}
 	}
-	
+	//reads items from CSV and assigns them to array associated with that type of object
 	public void readItemCSV() {
 		BufferedReader br = null;
 		int itemCount = 0;
@@ -219,6 +220,7 @@ public class CSV_DBIMP implements CSV_DB{
 			}
 		}
 	}
+	//may use this method in order to add more abstraction to the code base, but have not fully decided yet
 	/*public void readCSV(String csv) {
 	BufferedReader br = null;
 	File temp;
@@ -360,12 +362,13 @@ public class CSV_DBIMP implements CSV_DB{
 		}
 		return allPrinters;
 	}
+	//returns item if it exists by searching for the model number
 	@Override
-	public Item getItem(String item) {
+	public Item getItem(String model) {
 		Item foundItem = new ItemImp();
 		for(Item i: this.itemList) {
 			if(i != null) {
-				if(i.getModel().equals(item)) {
+				if(i.getModel().equals(model)) {
 			    	foundItem = i;
 			    	break;
 		    	}
@@ -377,6 +380,7 @@ public class CSV_DBIMP implements CSV_DB{
 		return foundItem;
 		
 	}
+	//returns printer if it exists by searching for the printers asset tag
 	@Override
 	public Printer getPrinter(int printerAT) {
 		Printer foundPrinter = new PrinterImp();
@@ -413,20 +417,22 @@ public class CSV_DBIMP implements CSV_DB{
 		}
 		return isEmpty;
 	}
+	//deletes item based on model number/tag
 	@Override
-	public void deleteItem(String j) {
+	public void deleteItem(String model) {
 		if(this.isItemListEmpty() == true) {
 			throw new ArrayIndexOutOfBoundsException("The item list is empty");
 		}
 		for(int i = 0; i < this.itemList.length; i++) {
 			if(this.itemList[i] != null) {
-				if(this.itemList[i].getModel().equals(j)) {
+				if(this.itemList[i].getModel().equals(model)) {
 					this.itemList[i] = null;
 					break;
 				}
 			}
 		}
 	}
+	//adds item based off of a new item creation, and assigns it to the next null value within the list
 	//@Override
 	public void addItem(Item i) {
         int j = 0;

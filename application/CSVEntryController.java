@@ -19,8 +19,9 @@ public class CSVEntryController {
 	@FXML private Label csvEntry;
 	
 	@FXML private Button addCSV;
-	
+	//TODO: add functionality to deselect the opposite option of radiobutton when the other is clicked
 	public void buttonHandling() {
+		//determines which radiobutton is clicked to decide which CSV is being added
 		addCSV.setOnAction(e->{
 			if(itemCSV.isSelected() && printerCSV.isSelected()) {
 				//do nothing

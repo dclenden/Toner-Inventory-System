@@ -74,17 +74,17 @@ public class MainController implements Initializable{
 		for(Printer p: dao.printerList) {
 			pList.add(p);
 		}
-		//dao.storeItemCSV("Wilmington Toner Database.csv");
 		dao.readItemCSV();
 		for(Item i: dao.itemList) {
 			iList.add(i);
 		}
 	}
+	//observable lists that contain the data from the dao that will communicate with the tableView objects
 	public static ObservableList<Printer> printerList = FXCollections.observableArrayList(pList);
 	public static ObservableList<Item> itemList = FXCollections.observableArrayList(iList);
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		// initializes the tables of the "mainView" form
 		if(!printerList.isEmpty()) {
 			assetTag.setCellValueFactory(new PropertyValueFactory<Printer, Integer>("assetTag"));
 			plocation.setCellValueFactory(new PropertyValueFactory<Printer, String>("location"));
@@ -107,24 +107,17 @@ public class MainController implements Initializable{
 		
 		
 	}
-	
+	//TODO: Add function to update CSV Files
 	@FXML
 	public void buttonHandling() throws Exception, FileNotFoundException {
-		deleteButton.setOnAction(e-> {
-			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
-//			if(selectedItem instanceof Printer) {
-//			    printerTable.getItems().remove(selectedItem);
-//			}
-			dao.deleteItem(selectedItem.getModel());
-			itemTable.getItems().remove(selectedItem);
-			System.out.println(selectedItem);
-		});
-//		addItemButton.setOnAction(e-> {
-//			Item selectedItem = new ItemImp(textFieldprinterModel.getText(), textFieldbrand.getText(), textFieldmodel.getText()
-//					, Integer.valueOf(textFieldminStock.getText()), Integer.valueOf(textFieldcurStock.getText()));
-//			dao.addItem(selectedItem);
-//			itemTable.getItems().add(selectedItem);
+//indecisive function, keeping in case we would like to go a different route with the mainView form		
+//		deleteButton.setOnAction(e-> {
+//			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
+//			dao.deleteItem(selectedItem.getModel());
+//			itemTable.getItems().remove(selectedItem);
+//			System.out.println(selectedItem);
 //		});
+		//This will take you to the "EditItem" form in which you can add / delete various items
 		addItemView.setOnAction(e-> {
 			try {
 				//Stage primaryStage = new Stage();
@@ -140,32 +133,18 @@ public class MainController implements Initializable{
 				ee.printStackTrace();
 			}
 		});
+		//a single button on the main form to pull the various data from the CSV's indicated
 		pullCSVs.setOnAction(e->{
 			init();
 			printerList = FXCollections.observableArrayList(pList);
 			itemList = FXCollections.observableArrayList(iList);
-			itemTable.getColumns().get(0).setVisible(false);
-			itemTable.getColumns().get(0).setVisible(true);
-			printerTable.getColumns().get(0).setVisible(false);
-			printerTable.getColumns().get(0).setVisible(true);
+//			itemTable.getColumns().get(0).setVisible(false);
+//			itemTable.getColumns().get(0).setVisible(true);
+//			printerTable.getColumns().get(0).setVisible(false);
+//			printerTable.getColumns().get(0).setVisible(true);
 			 
 		});
-//		addPrinterView.setOnAction(e-> {
-//			try {
-//				//Stage primaryStage = new Stage();
-//	    		Parent root = FXMLLoader.load(getClass().getResource("AddPrinter.fxml"));
-//				Scene scene = new Scene(root,500,350);
-//				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//				//primaryStage.setScene(scene);
-//				Stage appStage = (Stage) ((Node) e.getSource()).getScene().getWindow();	
-//				appStage.setScene(scene);
-//				appStage.show();
-//			}
-//			catch(IOException ee) {
-//				ee.printStackTrace();
-//			}
-//		});
-		
+		//view to open the form in which you can add CSV for more info please see the CSVEntryController.java class
 		addCSVview.setOnAction(e-> {
 			try {
 				Stage primaryStage = new Stage();
@@ -180,25 +159,4 @@ public class MainController implements Initializable{
 		});
         
 	}
-//	@FXML
-//    private Label lblStatus;
-//    @FXML	
-//    private TextField txtUserName;
-//    @FXML
-//    private TextField txtPassword;
-//    
-//    public void Login(ActionEvent event) throws Exception {
-//    	if(txtUserName.getText().equals("user") && txtPassword.getText().equals("password")) {
-//    		lblStatus.setText("Login Success");
-//    		Stage primaryStage = new Stage();
-//    		Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-//			Scene scene = new Scene(root,400,400);
-//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//			primaryStage.setScene(scene);
-//			primaryStage.show();
-//    	}
-//    	else {
-//    		lblStatus.setText("Login Failed");
-//    	}
-//    }
 }
