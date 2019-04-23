@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
-      <Label fx:id="msgWelcome" alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="27.0" prefWidth="976.0" text="Welcome!" />
+      <Label fx:id="msgWelcome" alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="27.0" prefWidth="976.0" text="Main Menu" />
       <TableView fx:id="printerTable" layoutX="41.0" layoutY="64.0" prefHeight="200.0" prefWidth="908.0">
         <columns>
           <TableColumn fx:id="assetTag" prefWidth="96.0" text="asset tag" />
@@ -30,8 +30,12 @@
             <TableColumn fx:id="curStock" prefWidth="78.0" text="cur stock" />
         </columns>
       </TableView>
-      <Button fx:id="addItemView" layoutX="655.0" layoutY="295.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="editItems" />
-      <Button fx:id="pullCSVs" layoutX="655.0" layoutY="350.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="Pull Data" />
-      <Button fx:id="addCSVview" layoutX="655.0" layoutY="415.0" mnemonicParsing="false" onAction="#buttonHandling" text="addCSV" />
+      <Button fx:id="addItemView" layoutX="599.0" layoutY="306.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="editItems" />
+      <Button fx:id="pullCSVs" layoutX="847.0" layoutY="306.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="Pull Data" />
+      <Button fx:id="addCSVview" layoutX="599.0" layoutY="469.0" mnemonicParsing="false" onAction="#buttonHandling" text="addCSV" />
+      <Button fx:id="refreshButton" layoutX="898.0" layoutY="480.0" mnemonicParsing="false" onAction="#buttonHandling" text="refresh" />
+      <Button fx:id="addPrinterCSV" layoutX="856.0" layoutY="372.0" mnemonicParsing="false" onAction="#buttonHandling" text="addPrinterCSV" />
+      <Button fx:id="addItemCSV" layoutX="867.0" layoutY="426.0" mnemonicParsing="false" onAction="#buttonHandling" text="addItemCSV" />
+      <Button fx:id="updateCSVButton" layoutX="600.0" layoutY="425.0" mnemonicParsing="false" onAction="#buttonHandling" text="updateCSV" />
    </children>
 </AnchorPane>

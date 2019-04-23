@@ -3,11 +3,13 @@
 */
 package application;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import InventorySystem.CSV_DBIMP;
@@ -28,6 +30,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 public class MainController implements Initializable{
 	
@@ -64,19 +68,29 @@ public class MainController implements Initializable{
 	@FXML private Button addItemView;
 	@FXML private Button pullCSVs;
 	@FXML private Button addCSVview;
-	@FXML private static ArrayList<Printer> pList = new ArrayList<Printer>();
-	@FXML private static ArrayList<Item> iList = new ArrayList<Item>();
+	@FXML private Button addPrinterCSV;
+	@FXML private Button addItemCSV;
+	@FXML private Button refreshButton;
+	@FXML private Button updateCSVButton;
+	@FXML public static ArrayList<Item> iList = new ArrayList<Item>();
 	static CSV_DBIMP dao = new CSV_DBIMP();
+	@FXML public static ArrayList<Printer> pList = new ArrayList<Printer>();
 	//static{init();}
 	public static void init() {
 		//dao.storePrinterCSV("printers.csv");
 		dao.readPrinterCSV();
-		for(Printer p: dao.printerList) {
-			pList.add(p);
+		ArrayList<Printer> toAdd = new ArrayList<>();
+		if(pList.isEmpty()) { //BUG: duplicates entry's when clicking the pull button in mainView [FIXED: (4/22/2019)]
+			for(Printer p: dao.printerList) {
+				pList.add(p);
+			}
 		}
+		//System.out.println("PRINTERS:" + pList.size() + "Items" + iList.size());
 		dao.readItemCSV();
-		for(Item i: dao.itemList) {
-			iList.add(i);
+		if(iList.isEmpty()) {
+			for(Item i: dao.itemList) {
+				iList.add(i);
+			}
 		}
 	}
 	//observable lists that contain the data from the dao that will communicate with the tableView objects
@@ -85,7 +99,7 @@ public class MainController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// initializes the tables of the "mainView" form
-		if(!printerList.isEmpty()) {
+		
 			assetTag.setCellValueFactory(new PropertyValueFactory<Printer, Integer>("assetTag"));
 			plocation.setCellValueFactory(new PropertyValueFactory<Printer, String>("location"));
 			dept.setCellValueFactory(new PropertyValueFactory<Printer, String>("department"));
@@ -95,15 +109,15 @@ public class MainController implements Initializable{
 			serialNumber.setCellValueFactory(new PropertyValueFactory<Printer, String> ("serialNumber"));
 	        System.out.println(Arrays.toString(dao.printerList));
 			printerTable.setItems(printerList);
-		}
-		if(!itemList.isEmpty()) {
+			printerTable.setPlaceholder(new Label("Please enter a Printer CSV to the application"));
+
 			printerModel.setCellValueFactory(new PropertyValueFactory<Item, String>("printerModel"));
 			brand.setCellValueFactory(new PropertyValueFactory<Item, String>("brand"));
 			model.setCellValueFactory(new PropertyValueFactory<Item, String>("model"));
 			minStock.setCellValueFactory(new PropertyValueFactory<Item, Integer>("minStock"));
 			curStock.setCellValueFactory(new PropertyValueFactory<Item, Integer>("currentStock"));
 			itemTable.setItems(itemList);
-		}
+			itemTable.setPlaceholder(new Label("Please enter a Item CSV to the application"));
 		
 		
 	}
@@ -138,10 +152,8 @@ public class MainController implements Initializable{
 			init();
 			printerList = FXCollections.observableArrayList(pList);
 			itemList = FXCollections.observableArrayList(iList);
-//			itemTable.getColumns().get(0).setVisible(false);
-//			itemTable.getColumns().get(0).setVisible(true);
-//			printerTable.getColumns().get(0).setVisible(false);
-//			printerTable.getColumns().get(0).setVisible(true);
+			printerTable.setItems(printerList);
+			itemTable.setItems(itemList);
 			 
 		});
 		//view to open the form in which you can add CSV for more info please see the CSVEntryController.java class
@@ -151,11 +163,64 @@ public class MainController implements Initializable{
 				Parent root = FXMLLoader.load(getClass().getResource("CSVEntry.fxml"));
 				Scene scene = new Scene(root,600,100);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				primaryStage.setTitle("DTCC Toner Inventory System");
+				primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/teamCoffeeHouse.png")));
+				//primaryStage.getIcons().add(new Image("\\images\\teamCoffeeHouse.png"));
 				primaryStage.setScene(scene);
 				primaryStage.show();
 			} catch(Exception ee) {
 				ee.printStackTrace();
 			}
+		});
+		addPrinterCSV.setOnAction(e->{
+			FileChooser fc = new FileChooser();
+			File selectedFile = fc.showOpenDialog(null);
+			if(selectedFile != null) {
+				dao.storePrinterCSV(selectedFile.getAbsolutePath());
+			}
+			else {
+				try {
+					throw new FileNotFoundException("File not found");
+				} catch (FileNotFoundException ee) {
+					ee.printStackTrace();
+				}
+			}
+		});
+		addItemCSV.setOnAction(e->{
+			FileChooser fc = new FileChooser();
+			File selectedFile = fc.showOpenDialog(null);
+			if(selectedFile != null) {
+				dao.storeItemCSV(selectedFile.getAbsolutePath());
+			}
+			else {
+				try {
+					throw new FileNotFoundException("File not found");
+				} catch (FileNotFoundException ee) {
+					ee.printStackTrace();
+				}
+			}
+		});
+		refreshButton.setOnAction(e->{
+			String printerFilePath = dao.printerFilePath;
+			String itemFilePath = dao.itemFilePath;
+			dao.storeItemCSV("reset");
+			dao.storePrinterCSV("reset");
+			dao.storeItemCSV(itemFilePath);
+			dao.storePrinterCSV(printerFilePath);
+			printerList = FXCollections.observableArrayList(pList);
+			itemList = FXCollections.observableArrayList(iList);
+			printerTable.setItems(printerList);
+			itemTable.setItems(itemList);
+			itemTable.refresh();
+		
+		});
+		updateCSVButton.setOnAction(e->{
+			try {
+				dao.updateCSVs();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
 		});
         
 	}

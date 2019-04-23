@@ -14,4 +14,10 @@ public interface Item {
 	public void setCurrentStock(int quantity);
 	public String getModel();
 	public void setModel(String model);
+	public void setOnOrder(String b);
+	public void setQuantityPrinters(int parseInt);
+	public int getQuantityPrinters();
+	public String getPrinterModel();
+	public void setPrinterModel(String printerModel);
+	public String getOnOrder();
 }

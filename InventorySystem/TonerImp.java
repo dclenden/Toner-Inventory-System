@@ -94,4 +94,29 @@ public class TonerImp implements Toner{
             return 0; // if returning 0 then there is no deficit	
         }
 	}
+	
+	public void setOnOrder(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setQuantityPrinters(int parseInt) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getQuantityPrinters() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void setOnOrder(String b) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public String getOnOrder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

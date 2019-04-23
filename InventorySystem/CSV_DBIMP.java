@@ -4,25 +4,35 @@
 package InventorySystem;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
 public class CSV_DBIMP implements CSV_DB{
 	public boolean needInput = false;
-	static String printerFilePath = "test"; //= "printers.csv";
-	static String itemFilePath = "test";
+	public String printerFilePath = "test"; //= "printers.csv";
+	public String itemFilePath = "test";
+//	static String updatePrinterFilePath = "";
+//	static String updateItemFilePath = "";
 	public Printer[] printerList = new PrinterImp[457];
 	public Item[] itemList = new ItemImp[62];
 	public HashMap<Integer, Printer> printerAccess = new HashMap<>();
 	public HashMap<String, Item> itemAccess = new HashMap<>();
 	//main method was created for development testing
 	public static void main(String[] args) throws IOException{
+//		CSV_DBIMP dao = new CSV_DBIMP();
+//		dao.storePrinterCSV("printers.csv");
+//		dao.readPrinterCSV();
+//		dao.storeItemCSV("Wilmington Toner Database.csv");
+//		dao.readItemCSV();
+//		dao.updateCSVs();
 //		//storePrinterCSV();
 //		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
 //		//readPrinterCSV();
@@ -85,7 +95,14 @@ public class CSV_DBIMP implements CSV_DB{
 	    }
 
 	}
-	
+	//if we decide to have a seperate updated file to write to -> most likely going to be scrapped
+//	public void storeupdatePrinterCSV(String filePath) {
+//	    updatePrinterFilePath = filePath;	
+//	}
+//	
+//	public void storeupdateItemCSV(String filePath) {
+//	    updateItemFilePath = filePath;	
+//	}
 	public void storePrinterCSV(String filePath) {
 	    printerFilePath = filePath;	
 	}
@@ -190,6 +207,9 @@ public class CSV_DBIMP implements CSV_DB{
 				{
 					Item tempItem = new ItemImp(itemDetails[0], itemDetails[1], itemDetails[2]
 							, Integer.parseInt(itemDetails[4]), Integer.parseInt(itemDetails[5]));
+					tempItem.setQuantityPrinters(Integer.parseInt(itemDetails[3]));
+					tempItem.setOnOrder(itemDetails[6]);
+					
 					itemAccess.put(itemDetails[2], tempItem);
 					this.itemList[itemCount++] = tempItem;
 					
@@ -380,6 +400,18 @@ public class CSV_DBIMP implements CSV_DB{
 		return foundItem;
 		
 	}
+	public boolean containsPrinter(Printer p) {
+		boolean containsPrinter = false;
+		for(Printer printer: printerList) {
+			if(p.equals(printer)) {
+				containsPrinter = true;
+			}
+			else {
+				containsPrinter = false;
+			}
+		}
+		return containsPrinter;
+	}
 	//returns printer if it exists by searching for the printers asset tag
 	@Override
 	public Printer getPrinter(int printerAT) {
@@ -446,4 +478,121 @@ public class CSV_DBIMP implements CSV_DB{
 			ee.printStackTrace();
 		}
 	}
+	public void updateCSVs() throws IOException {
+	   ArrayList<Item> iList = new ArrayList<>();
+	   for(int i = 0; i < itemList.length; i++) {
+		   iList.add(itemList[i]);
+	   }
+	   File f = new File(itemFilePath);
+	   if(f.exists()) {
+		   f.delete();
+		   try {
+			   f.createNewFile();
+		   }
+		   catch(IOException e) {
+			   e.printStackTrace();
+		   }
+		try (FileWriter writer = new FileWriter(f);
+		             BufferedWriter bw = new BufferedWriter(writer)) {
+        	StringBuilder sb = new StringBuilder();
+	        Iterator<Item> it = iList.iterator();
+	        //appends header to csv file
+	        sb.append("PrinterModel" + "," + "Brand" + "," + "Model" + "," + "Printers" + "," 
+	        + "MinStock" + "," + "CurStock" + "," + "Order" + "," + "Needed" +"\n");
+	        while(it.hasNext()) {
+	        	
+	            Item i = (Item)it.next(); //BUG: issue where item would be null within dao itemList -> FIXED: 4/22/2019
+	            if(i != null) {
+		            sb.append(i.getPrinterModel().toString());
+		            sb.append(",");
+		            sb.append(i.getBrand().toString());
+		            sb.append(",");
+		            sb.append(i.getModel().toString());
+		            sb.append(",");
+		            sb.append(String.valueOf(i.getQuantityPrinters()));
+		            sb.append(",");
+		            sb.append(String.valueOf(i.getMinStock()));
+		            sb.append(",");
+		            sb.append(String.valueOf(i.getCurrentStock()));
+		            sb.append(",");
+		            sb.append(i.getOnOrder());
+		            sb.append(",");
+		            sb.append(String.valueOf(i.getDeficit()));
+		            sb.append("\n");
+	            }
+	        }
+	        bw.write(sb.toString());
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
+//		File printerFile = new File(printerFilePath);
+//		File itemFile = new File(itemFilePath);
+//		if(printerFile.exists()) {
+//				FileInputStream printerinstream = null;
+//				FileOutputStream printeroutstream = null;
+//			 
+//		    	try{
+//		    		File printeroutfile = new File(printerFilePath);//null;
+//		    		
+//		    		printerinstream = new FileInputStream(printerFile);
+//		    		printeroutstream = new FileOutputStream(printeroutfile);
+//		 
+//		    	    byte[] printerbuffer = new byte[1024];
+//		    	    int length;
+//		    	    /*copying the contents from input stream to
+//		    	     * output stream using read and write methods
+//		    	     */
+//		    	    while ((length = printerinstream.read(printerbuffer)) > 0){
+//		    	    	printeroutstream.write(printerbuffer, 0, length);
+//		    	    }
+//	
+//		    	    //Closing the input/output file streams
+//		    	    printerinstream.close();
+//		    	    printeroutstream.close();
+//		    	    System.out.println("CSV replaced");
+//	
+//			 
+//		    	}
+//		    	catch(IOException ioe){
+//		    		ioe.printStackTrace();
+//		    	}
+//		}
+//		
+//		if(itemFile.exists()) {
+//			FileInputStream iteminstream = null;
+//			FileOutputStream itemoutstream = null;
+//		 
+//	    	try{
+//	    		File itemoutfile = new File(itemFilePath);
+//	    		iteminstream = new FileInputStream(itemFile);
+//	    		itemoutstream = new FileOutputStream(itemoutfile);
+//	 
+//	    	    byte[] itembuffer = new byte[1024];
+//	    	    int length;
+//	    	    /*copying the contents from input stream to
+//	    	     * output stream using read and write methods
+//	    	     */
+//	    	    while ((length = iteminstream.read(itembuffer)) > 0){
+//	    	    	itemoutstream.write(itembuffer, 0, length);
+//	    	    }
+//	
+//	    	    //Closing the input/output file streams
+//	    	    iteminstream.close();
+//	    	    itemoutstream.close();
+//	
+//	    	    System.out.println("CSV replaced");
+//		 
+//	    	}
+//	    	catch(IOException ioe){
+//	    		ioe.printStackTrace();
+//	    	}
+//		 }
+//		else {
+//			 System.out.println("Verification error");
+//			 return;
+//		}
+	}
+			
+	
+}
 }

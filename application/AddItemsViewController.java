@@ -6,11 +6,11 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import InventorySystem.Item;
 import InventorySystem.ItemImp;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -57,6 +58,7 @@ public class AddItemsViewController implements Initializable{
 		minStock.setCellValueFactory(new PropertyValueFactory<Item, Integer>("minStock"));
 		curStock.setCellValueFactory(new PropertyValueFactory<Item, Integer>("currentStock"));
 		itemTable.setItems(itemList);
+		itemTable.setPlaceholder(new Label("Please enter a Item CSV to the application"));
 		
 	}
 	
@@ -68,13 +70,17 @@ public class AddItemsViewController implements Initializable{
 					, Integer.valueOf(textFieldminStock.getText()), Integer.valueOf(textFieldcurStock.getText()));
 			MainController.dao.addItem(selectedItem);
 			itemTable.getItems().add(selectedItem);
+			MainController.iList.add(selectedItem);
+			itemTable.refresh();
 		});
 		//deletes item from table and dao
 		deleteButton.setOnAction(e-> {
 			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
 			MainController.dao.deleteItem(selectedItem.getModel());
 			itemTable.getItems().remove(selectedItem);
+			MainController.iList.remove(selectedItem);
 			System.out.println(selectedItem);
+			System.out.println(Arrays.asList(MainController.dao.itemList));
 		});
 		//returns you to the mainView form
 		returnButton.setOnAction(e->{

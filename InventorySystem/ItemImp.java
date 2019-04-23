@@ -4,6 +4,7 @@
 package InventorySystem;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -13,6 +14,9 @@ public class ItemImp implements Item {
     private SimpleStringProperty model;
     private IntegerProperty minStock;
     private IntegerProperty curStock;
+    private int quantityPrinters;
+    private String onOrder;
+    
 	public ItemImp(String printerModel, String brand, String model, int minStock, int curStock){
 	    this.printerModel = new SimpleStringProperty(printerModel);
 	    this.brand = new SimpleStringProperty(brand);
@@ -51,11 +55,11 @@ public class ItemImp implements Item {
             return 0; // if returning 0 then there is no deficit	
         }
 	}
-
+    @Override
 	public String getPrinterModel() {
 		return printerModel.get();
 	}
-
+    @Override
 	public void setPrinterModel(String printerModel) {
 		this.printerModel = new SimpleStringProperty(printerModel);
 	}
@@ -87,10 +91,26 @@ public class ItemImp implements Item {
 	public int getCurrentStock() {
 		return curStock.get();
 	}
-
+	@Override
 	public void setCurrentStock(int curStock) {
 		this.curStock = new SimpleIntegerProperty(curStock);
 	}
+	@Override
+	public int getQuantityPrinters() {
+		return quantityPrinters;
+	}
+	@Override
+	public void setQuantityPrinters(int quantityPrinters) {
+		this.quantityPrinters = quantityPrinters;
+	}
+    @Override
+	public String getOnOrder() {
+		return onOrder;
+	}
+	public void setOnOrder(String onOrder) {
+		this.onOrder = onOrder;
+	}
+
 
 	@Override
 	public String getName() {
@@ -109,4 +129,5 @@ public class ItemImp implements Item {
 		return "ItemImp [printerModel=" + printerModel + ", brand=" + brand + ", model=" + model + ", minStock="
 				+ minStock + ", curStock=" + curStock + "]\n";
 	}
+
 }

@@ -1,17 +1,12 @@
 package application;
 	
-import java.io.IOException;
-
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
+//FIX BUG OF WRITING TO CSV
 
 public class Main extends Application {
 	private Stage primaryStage;
@@ -22,6 +17,8 @@ public class Main extends Application {
 			Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
 			Scene scene = new Scene(root,1100,550);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setTitle("DTCC Toner Inventory System");
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/teamCoffeeHouse.png")));
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
