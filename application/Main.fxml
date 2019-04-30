@@ -20,7 +20,6 @@
             <TableColumn fx:id="serialNumber" prefWidth="135.0" text="serial #" />
         </columns>
       </TableView>
-      <Button fx:id="deleteButton" layoutX="583.0" layoutY="576.0" mnemonicParsing="false" onAction="#buttonHandling" text="Delete" />
       <TableView fx:id="itemTable" layoutX="41.0" layoutY="306.0" prefHeight="200.0" prefWidth="544.0">
         <columns>
           <TableColumn fx:id="printerModel" prefWidth="154.0" text="printer model" />
@@ -30,12 +29,11 @@
             <TableColumn fx:id="curStock" prefWidth="78.0" text="cur stock" />
         </columns>
       </TableView>
-      <Button fx:id="addItemView" layoutX="599.0" layoutY="306.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="editItems" />
-      <Button fx:id="pullCSVs" layoutX="847.0" layoutY="306.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="102.0" text="Pull Data" />
-      <Button fx:id="addCSVview" layoutX="599.0" layoutY="469.0" mnemonicParsing="false" onAction="#buttonHandling" text="addCSV" />
-      <Button fx:id="refreshButton" layoutX="898.0" layoutY="480.0" mnemonicParsing="false" onAction="#buttonHandling" text="refresh" />
-      <Button fx:id="addPrinterCSV" layoutX="856.0" layoutY="372.0" mnemonicParsing="false" onAction="#buttonHandling" text="addPrinterCSV" />
-      <Button fx:id="addItemCSV" layoutX="867.0" layoutY="426.0" mnemonicParsing="false" onAction="#buttonHandling" text="addItemCSV" />
-      <Button fx:id="updateCSVButton" layoutX="600.0" layoutY="425.0" mnemonicParsing="false" onAction="#buttonHandling" text="updateCSV" />
+      <Button fx:id="addItemView" layoutX="645.0" layoutY="306.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="109.0" text="editItems" />
+      <Button fx:id="pullCSVs" layoutX="840.0" layoutY="306.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="109.0" text="Pull Data" />
+      <Button fx:id="addCSVview" layoutX="645.0" layoutY="366.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="109.0" text="addCSV" />
+      <Button fx:id="orderItemList" layoutX="645.0" layoutY="426.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="109.0" text="orderView" />
+      <Button fx:id="addPrinterCSV" layoutX="840.0" layoutY="366.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="109.0" text="addPrinterCSV" />
+      <Button fx:id="addItemCSV" layoutX="840.0" layoutY="426.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="48.0" prefWidth="109.0" text="addItemCSV" />
    </children>
 </AnchorPane>

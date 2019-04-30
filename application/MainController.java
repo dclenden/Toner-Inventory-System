@@ -72,14 +72,16 @@ public class MainController implements Initializable{
 	@FXML private Button addItemCSV;
 	@FXML private Button refreshButton;
 	@FXML private Button updateCSVButton;
+	@FXML private Button orderItemList;
 	@FXML public static ArrayList<Item> iList = new ArrayList<Item>();
 	static CSV_DBIMP dao = new CSV_DBIMP();
 	@FXML public static ArrayList<Printer> pList = new ArrayList<Printer>();
 	//static{init();}
 	public static void init() {
 		//dao.storePrinterCSV("printers.csv");
+		//dao.storeItemCSV("WilmingtonTonerTEST2.csv");
+		//dao.storePrinterCSV("printers.csv");
 		dao.readPrinterCSV();
-		ArrayList<Printer> toAdd = new ArrayList<>();
 		if(pList.isEmpty()) { //BUG: duplicates entry's when clicking the pull button in mainView [FIXED: (4/22/2019)]
 			for(Printer p: dao.printerList) {
 				pList.add(p);
@@ -136,7 +138,7 @@ public class MainController implements Initializable{
 			try {
 				//Stage primaryStage = new Stage();
 	    		Parent root = FXMLLoader.load(getClass().getResource("AddItem.fxml"));
-				Scene scene = new Scene(root,500,350);
+				Scene scene = new Scene(root,700,349);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				//primaryStage.setScene(scene);
 				Stage appStage = (Stage) ((Node) e.getSource()).getScene().getWindow();	
@@ -150,6 +152,7 @@ public class MainController implements Initializable{
 		//a single button on the main form to pull the various data from the CSV's indicated
 		pullCSVs.setOnAction(e->{
 			init();
+			itemTable.setItems(null);
 			printerList = FXCollections.observableArrayList(pList);
 			itemList = FXCollections.observableArrayList(iList);
 			printerTable.setItems(printerList);
@@ -165,7 +168,6 @@ public class MainController implements Initializable{
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setTitle("DTCC Toner Inventory System");
 				primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/teamCoffeeHouse.png")));
-				//primaryStage.getIcons().add(new Image("\\images\\teamCoffeeHouse.png"));
 				primaryStage.setScene(scene);
 				primaryStage.show();
 			} catch(Exception ee) {
@@ -176,7 +178,7 @@ public class MainController implements Initializable{
 			FileChooser fc = new FileChooser();
 			File selectedFile = fc.showOpenDialog(null);
 			if(selectedFile != null) {
-				dao.storePrinterCSV(selectedFile.getAbsolutePath());
+				dao.storePrinterCSV(selectedFile.getName());
 			}
 			else {
 				try {
@@ -190,7 +192,7 @@ public class MainController implements Initializable{
 			FileChooser fc = new FileChooser();
 			File selectedFile = fc.showOpenDialog(null);
 			if(selectedFile != null) {
-				dao.storeItemCSV(selectedFile.getAbsolutePath());
+				dao.storeItemCSV(selectedFile.getName());
 			}
 			else {
 				try {
@@ -200,28 +202,43 @@ public class MainController implements Initializable{
 				}
 			}
 		});
-		refreshButton.setOnAction(e->{
-			String printerFilePath = dao.printerFilePath;
-			String itemFilePath = dao.itemFilePath;
-			dao.storeItemCSV("reset");
-			dao.storePrinterCSV("reset");
-			dao.storeItemCSV(itemFilePath);
-			dao.storePrinterCSV(printerFilePath);
-			printerList = FXCollections.observableArrayList(pList);
-			itemList = FXCollections.observableArrayList(iList);
-			printerTable.setItems(printerList);
-			itemTable.setItems(itemList);
-			itemTable.refresh();
-		
-		});
-		updateCSVButton.setOnAction(e->{
-			try {
-				dao.updateCSVs();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-		});
+//		refreshButton.setOnAction(e->{
+//			String printerFilePath = dao.printerFilePath;
+//			String itemFilePath = dao.itemFilePath;
+//			dao.storeItemCSV("reset");
+//			dao.storePrinterCSV("reset");
+//			dao.storeItemCSV(itemFilePath);
+//			dao.storePrinterCSV(printerFilePath);
+//			printerList = FXCollections.observableArrayList(pList);
+//			itemList = FXCollections.observableArrayList(iList);
+//			printerTable.setItems(printerList);
+//			itemTable.setItems(itemList);
+//			itemTable.refresh();
+//		
+//		});
+//		updateCSVButton.setOnAction(e->{
+//			try {
+//				dao.updateCSVs();
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//			
+//		});
         
+		orderItemList.setOnAction(e->{
+			orderViewController.itemsList = FXCollections.observableArrayList(dao.orderList());
+			try {
+				Stage primaryStage = new Stage();
+				Parent root = FXMLLoader.load(getClass().getResource("OrderList.fxml"));
+				Scene scene = new Scene(root,700,500);
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				primaryStage.setTitle("DTCC Toner Inventory System");
+				primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/teamCoffeeHouse.png")));
+				primaryStage.setScene(scene);
+				primaryStage.show();
+			} catch(Exception ee) {
+				ee.printStackTrace();
+			}
+		});
 	}
 }

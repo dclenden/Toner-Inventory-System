@@ -19,6 +19,6 @@ public interface Printer {
 	public void setCategory(String a);
 	public String getSerialNumber();
 	public void setSerialNumber(String a);
-	public ArrayList getCompatibleToners(Toner t);
-	public void setCompatibleToners(ArrayList<Toner> t);
+	public ArrayList<String> getCompatibleToners();
+	void setCompatibleToners(ArrayList<String> s);
 }

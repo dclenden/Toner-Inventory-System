@@ -14,9 +14,10 @@ public class ItemImp implements Item {
     private SimpleStringProperty model;
     private IntegerProperty minStock;
     private IntegerProperty curStock;
-    private int quantityPrinters;
-    private String onOrder;
-    
+    private IntegerProperty quantityPrinters;
+    private SimpleStringProperty onOrder;
+    private IntegerProperty needed;
+
 	public ItemImp(String printerModel, String brand, String model, int minStock, int curStock){
 	    this.printerModel = new SimpleStringProperty(printerModel);
 	    this.brand = new SimpleStringProperty(brand);
@@ -25,12 +26,38 @@ public class ItemImp implements Item {
 	    this.curStock = new SimpleIntegerProperty(curStock);
 	}
 	
+	public ItemImp(String printerModel, String brand, String model, int minStock, int curStock
+			, String onOrder, int needed, int quantityOfPrinters){
+	    this.printerModel = new SimpleStringProperty(printerModel);
+	    this.brand = new SimpleStringProperty(brand);
+	    this.model = new SimpleStringProperty(model);
+	    this.minStock = new SimpleIntegerProperty(minStock);
+	    this.curStock = new SimpleIntegerProperty(curStock);
+	    this.onOrder = new SimpleStringProperty(onOrder);
+	    this.needed = new SimpleIntegerProperty(needed);
+	    this.quantityPrinters = new SimpleIntegerProperty(quantityOfPrinters);
+	}
+	
+	public ItemImp(String printerModel, String brand, String model, int minStock, int curStock
+			, String onOrder, int quantityOfPrinters){
+	    this.printerModel = new SimpleStringProperty(printerModel);
+	    this.brand = new SimpleStringProperty(brand);
+	    this.model = new SimpleStringProperty(model);
+	    this.minStock = new SimpleIntegerProperty(minStock);
+	    this.curStock = new SimpleIntegerProperty(curStock);
+	    this.onOrder = new SimpleStringProperty(onOrder);
+	    this.quantityPrinters = new SimpleIntegerProperty(quantityOfPrinters);
+	}
+	
 	public ItemImp(){
 		this.printerModel = new SimpleStringProperty("");
 		this.brand = new SimpleStringProperty("");
 		this.model = new SimpleStringProperty("");
 		this.minStock = new SimpleIntegerProperty(0);
 		this.curStock = new SimpleIntegerProperty(0);
+		this.onOrder = new SimpleStringProperty("");
+		this.needed = new SimpleIntegerProperty(0);
+		this.quantityPrinters = new SimpleIntegerProperty(0);
 	}
 	
 	@Override
@@ -97,18 +124,26 @@ public class ItemImp implements Item {
 	}
 	@Override
 	public int getQuantityPrinters() {
-		return quantityPrinters;
+		return quantityPrinters.get();
 	}
 	@Override
 	public void setQuantityPrinters(int quantityPrinters) {
-		this.quantityPrinters = quantityPrinters;
+		this.quantityPrinters = new SimpleIntegerProperty(quantityPrinters);
 	}
     @Override
 	public String getOnOrder() {
-		return onOrder;
+		return onOrder.get();
 	}
 	public void setOnOrder(String onOrder) {
-		this.onOrder = onOrder;
+		this.onOrder = new SimpleStringProperty(onOrder);
+	}
+	
+	public int getNeeded() {
+		return this.getDeficit();
+	}
+
+	public void setNeeded(int needed) {
+		this.needed = new SimpleIntegerProperty(needed);
 	}
 
 

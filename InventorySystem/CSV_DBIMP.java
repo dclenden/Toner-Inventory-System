@@ -10,8 +10,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -19,15 +21,26 @@ public class CSV_DBIMP implements CSV_DB{
 	public boolean needInput = false;
 	public String printerFilePath = "test"; //= "printers.csv";
 	public String itemFilePath = "test";
+	public final String crossWalk = "crosswalk.csv";
 //	static String updatePrinterFilePath = "";
 //	static String updateItemFilePath = "";
-	public Printer[] printerList = new PrinterImp[457];
-	public Item[] itemList = new ItemImp[62];
+	public Printer[] printerList = new PrinterImp[457];//457
+	public Item[] itemList = new ItemImp[62];//62 or 61
 	public HashMap<Integer, Printer> printerAccess = new HashMap<>();
 	public HashMap<String, Item> itemAccess = new HashMap<>();
 	//main method was created for development testing
 	public static void main(String[] args) throws IOException{
-//		CSV_DBIMP dao = new CSV_DBIMP();
+		CSV_DBIMP dao = new CSV_DBIMP();
+		dao.storePrinterCSV("printers.csv");
+		dao.storeItemCSV("Wilmington Toner DatabaseORIGINAL.csv");
+		//dao.readPrinterCSV();
+		dao.readItemCSV();
+		//dao.readCrossWalk();
+		for(Printer p : dao.printerList) {
+			//System.out.println(p);
+			//System.out.println(p.getCompatibleToners());
+		}
+		System.out.println(dao.orderList());
 //		dao.storePrinterCSV("printers.csv");
 //		dao.readPrinterCSV();
 //		dao.storeItemCSV("Wilmington Toner Database.csv");
@@ -111,6 +124,93 @@ public class CSV_DBIMP implements CSV_DB{
 	    itemFilePath = filePath;	
 	}
 	//reads printers from CSV and assigns them to array associated with that type of object
+	
+	// added method to read crosswalk between toners and printers, (currently throws error but doesn't prevent data from being
+	// read, this error should be fixed when possible (low priority)
+	public void readCrossWalk() {
+		BufferedReader br = null;
+		int printerCount = 0;
+		int start = 0;
+		try
+		{
+			br = new BufferedReader(new FileReader(crossWalk));
+			String line = "";
+			br.readLine();
+		
+			while ((line = br.readLine()) != null) 
+			{
+				List<String> tokensList = new ArrayList<String>();
+				boolean inQuotes = false;
+				StringBuilder b = new StringBuilder();
+				for (char c : line.toCharArray()) {
+				    switch (c) {
+				    case ',':
+				        if (inQuotes) {
+				            b.append(c);
+				        } else {
+				            tokensList.add(b.toString());
+				            b = new StringBuilder();
+				        }
+				        break;
+				    case '\"':
+				        inQuotes = !inQuotes;
+				    default:
+				        b.append(c);
+				    break;
+				    }
+				}
+				tokensList.add(b.toString());
+				
+				//String[] printerDetails = line.split(",");
+				//System.out.println(tokensList);
+
+				if(tokensList.size() > 0 && !tokensList.get(0).isEmpty())
+				{
+					//no quote token
+					String nqToken = tokensList.get(4).replaceAll("^\"|\"$", "");
+					//System.out.println(nqToken);
+					//System.out.println(tokensList.get(4));
+					String[] tokens = nqToken.split("\\s*,\\s*");
+					//System.out.println(tokens);
+					for(Printer p : this.printerList) {
+						if(p.getDescription().equals(tokensList.get(1))){
+							ArrayList<String> infoHolder = new ArrayList<>();
+							for(String info : tokens) {
+								infoHolder.add(info);
+							}
+							p.setCompatibleToners(infoHolder);
+						}
+			        }
+			    }
+			}
+		    }
+		
+		
+		catch(ArrayIndexOutOfBoundsException ee) {
+			ee.printStackTrace();
+			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
+		}
+		catch(NumberFormatException e) {
+			throw new NumberFormatException("Incorrect file format"); 
+		}
+		
+		catch(Exception ee)
+		{
+			ee.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				br.close();
+			}
+			catch(IOException ie)
+			{
+				System.out.println("Error occured while closing the BufferedReader");
+				ie.printStackTrace();
+			}
+		}
+	}
 	public void readPrinterCSV() {
 		BufferedReader br = null;
 		int printerCount = 0;
@@ -206,9 +306,10 @@ public class CSV_DBIMP implements CSV_DB{
 				if(itemDetails.length > 0 && !itemDetails[0].isEmpty())
 				{
 					Item tempItem = new ItemImp(itemDetails[0], itemDetails[1], itemDetails[2]
-							, Integer.parseInt(itemDetails[4]), Integer.parseInt(itemDetails[5]));
-					tempItem.setQuantityPrinters(Integer.parseInt(itemDetails[3]));
-					tempItem.setOnOrder(itemDetails[6]);
+							, Integer.parseInt(itemDetails[4]), Integer.parseInt(itemDetails[5])
+							,itemDetails[6],Integer.parseInt(itemDetails[7]),Integer.parseInt(itemDetails[3]));
+					//tempItem.setQuantityPrinters(Integer.parseInt(itemDetails[3]));
+					//tempItem.setOnOrder(itemDetails[6]);
 					
 					itemAccess.put(itemDetails[2], tempItem);
 					this.itemList[itemCount++] = tempItem;
@@ -464,6 +565,20 @@ public class CSV_DBIMP implements CSV_DB{
 			}
 		}
 	}
+	
+	// returns list of items to be ordered
+	public List<Item> orderList() {
+		List<Item> toOrder = new ArrayList<>();
+		for(Item item : this.itemList) {
+			if(item != null) {
+				if(item.hasDeficit()) {
+					toOrder.add(item);
+				}
+			}
+		}
+		return toOrder;
+	}
+	
 	//adds item based off of a new item creation, and assigns it to the next null value within the list
 	//@Override
 	public void addItem(Item i) {

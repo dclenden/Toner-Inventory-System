@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="349.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddItemsViewController">
+<AnchorPane prefHeight="349.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddItemsViewController">
    <children>
-      <TableView fx:id="itemTable" layoutX="3.0" layoutY="6.0" prefHeight="147.0" prefWidth="494.0">
+      <TableView fx:id="itemTable" layoutX="5.0" prefHeight="213.0" prefWidth="691.0">
         <columns>
-          <TableColumn fx:id="printerModel" prefWidth="107.0" text="printer model" />
-          <TableColumn fx:id="brand" prefWidth="79.0" text="brand" />
-            <TableColumn fx:id="model" prefWidth="136.0" text="model" />
-            <TableColumn fx:id="minStock" prefWidth="83.0" text="min stock" />
-            <TableColumn fx:id="curStock" prefWidth="85.0" text="cur stock" />
+          <TableColumn fx:id="printerModel" prefWidth="163.0" text="printer model" />
+          <TableColumn fx:id="brand" prefWidth="92.0" text="brand" />
+            <TableColumn fx:id="model" prefWidth="114.0" text="model" />
+            <TableColumn fx:id="numPrinters" prefWidth="60.0" text="# printers" />
+            <TableColumn fx:id="minStock" prefWidth="71.0" text="min stock" />
+            <TableColumn fx:id="curStock" prefWidth="68.0" text="cur stock" />
+            <TableColumn fx:id="ordered" prefWidth="122.0" text="onOrder" />
         </columns>
       </TableView>
-      <TextField fx:id="textFieldprinterModel" layoutX="14.0" layoutY="163.0" promptText="Printer Model" />
-      <TextField fx:id="textFieldbrand" layoutX="14.0" layoutY="199.0" promptText="Brand" />
-      <TextField fx:id="textFieldmodel" layoutX="14.0" layoutY="239.0" promptText="Model" />
-      <TextField fx:id="textFieldminStock" layoutX="14.0" layoutY="273.0" promptText="Min Stock" />
-      <TextField fx:id="textFieldcurStock" layoutX="14.0" layoutY="310.0" promptText="Cur Stock" />
-      <Button fx:id="addItemButton" layoutX="200.0" layoutY="222.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="34.0" prefWidth="62.0" text="Add" />
-      <Button fx:id="returnButton" layoutX="437.0" layoutY="310.0" mnemonicParsing="false" onAction="#buttonHandling" text="return" />
-      <Button fx:id="deleteButton" layoutX="272.0" layoutY="222.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="34.0" prefWidth="62.0" text="Delete" />
+      <TextField fx:id="textFieldprinterModel" layoutX="14.0" layoutY="227.0" promptText="Printer Model" />
+      <TextField fx:id="textFieldbrand" layoutX="175.0" layoutY="227.0" promptText="Brand" />
+      <TextField fx:id="textFieldmodel" layoutX="333.0" layoutY="227.0" promptText="Model" />
+      <TextField fx:id="textFieldminStock" layoutX="175.0" layoutY="258.0" promptText="Min Stock" />
+      <TextField fx:id="textFieldcurStock" layoutX="333.0" layoutY="258.0" promptText="Cur Stock" />
+      <Button fx:id="addItemButton" layoutX="175.0" layoutY="289.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="11.0" prefWidth="71.0" text="Add" />
+      <Button fx:id="returnButton" layoutX="637.0" layoutY="311.0" mnemonicParsing="false" onAction="#buttonHandling" text="return" />
+      <Button fx:id="deleteButton" layoutX="250.0" layoutY="289.0" mnemonicParsing="false" onAction="#buttonHandling" prefHeight="16.0" prefWidth="71.0" text="Delete" />
+      <TextField fx:id="textFieldnumPrinters" layoutX="14.0" layoutY="258.0" promptText="# printers" />
+      <TextField fx:id="textFieldOrdered" layoutX="14.0" layoutY="289.0" promptText="onOrder" />
+      <Label fx:id="incorrectInputs" layoutX="333.0" layoutY="293.0" prefHeight="17.0" prefWidth="149.0" />
    </children>
 </AnchorPane>

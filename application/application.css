@@ -1,9 +1,11 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .root{
 	-fx-background-color: rgb(32,32,32)  ;
+	-fx-background-image: url("../images/meadowyellow.jpg");
 }
+
 .button{
-	-fx-background-color: coral ;
+	-fx-background-color: lightgreen  ;
 	-fx-text-fill: black;
 	-fx-font-weight: Bold;
 	-fx-font-weight: 10;
@@ -12,7 +14,7 @@
 	-fx-background-radius: 22;
 }
 .button:hover{
-	-fx-background-color: coral ;
+	-fx-background-color: darkgreen ;
 	-fx-text-fill: white;
 	-fx-font-weight: Bold;
 	-fx-font-weight: 10;
@@ -24,7 +26,7 @@
 	-fx-border-width: 3;
 }
 .button:pressed{
-	-fx-background-color: coral ;
+	-fx-background-color: darkgreen ;
 	-fx-text-fill: white;
 	-fx-font-weight: Bold;
 	-fx-font-weight: 10;
@@ -37,32 +39,40 @@
 	-fx-translate-y: 2px;
 }
 .table-view{
-	-fx-background-color: darkgray;
+	-fx-background-color: skyblue;
+}
+.table-view .table-column{
+	-fx-alignment: center;
+}
+#needed{
+	-fx-text-fill: red;
 }
 .table-row-cell:empty {
-    -fx-background-color: black;
+    -fx-background-color: lightgreen;
 }
 
 .table-row-cell:hover{
-    -fx-background-color: blanchedalmond;
+    -fx-background-color: lightblue;
 }
 
 .table-row-cell:selected{
-    -fx-background-color: chocolate;
+    -fx-background-color: rgb(31,64,192);
 }
 .table-row-cell{
 	-fx-text-fill: white;
+	-fx-text-alignment: center;
 	-fx-background-color: rgba(0, 0, 0, .05);
 }
 .table-view .text{
 	-fx-text-fill: white;
+	-fx-text-alignment: center;
 }
 .table-view .column-header-background{
     -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
 }
 
 .table-view .column-header .arrow {
-    -fx-background-color: coral;
+    -fx-background-color: green;
 }
 .table-view .column-header .label {
     -fx-text-fill: white;
@@ -83,17 +93,28 @@
 
 
 #msgWelcome{
-	-fx-text-fill: white;
+	-fx-text-fill: skyblue;
 	-fx-font-size: 25;
-	-fx-font-weight: 15;
+	-fx-font-weight: bold;
+	-fx-font-style: italic ;
+	-fx-blend-mode: lighten ;
+	-fx-font-family: serif;
 }
 #csvEntry{
 	-fx-text-fill: white;
 	-fx-font-size: 15;
 	-fx-font-weight: 7;
 }
+#filePathConfirmation, #incorrectInputs{
+	-fx-font: 15px;
+    -fx-text-fill: yellow;/*linear-gradient( from 0.0% 0.0% to 100.0% 100.0%, rgb(255,255,77) 0.0, rgb(179,26,26) 100.0);*//*linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);*/
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
 .text-field{
-	-fx-background-color:darkgray;
+	-fx-background-color:lightblue;
 	-fx-prompt-text-fill: white;
 	-fx-text-fill: white;
 }

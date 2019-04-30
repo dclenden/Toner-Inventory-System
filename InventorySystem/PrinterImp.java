@@ -100,12 +100,11 @@ public class PrinterImp implements Printer{
 		this.serialNumber = new SimpleStringProperty(serialNumber);
 	}
 	@Override
-	public ArrayList<String> getCompatibleToners(Toner t) {
-		return compatibleToners;
+	public ArrayList<String> getCompatibleToners() {
+		return this.compatibleToners;
 	}
-	@Override
-	public void setCompatibleToners(ArrayList<Toner> t) {
-		this.compatibleToners = compatibleToners;
+	public void setCompatibleToners(ArrayList<String> s) {
+		this.compatibleToners = s;
 	}
 	@Override
 	public String toString() {
