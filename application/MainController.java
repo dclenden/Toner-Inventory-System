@@ -91,17 +91,21 @@ public class MainController implements Initializable{
 		dao.readItemCSV();
 		
 		if(pList.isEmpty()) { //BUG: duplicates entry's when clicking the pull button in mainView [FIXED: (4/22/2019)]
-			for(Printer p: dao.printerList) {
-				if(p != null) {
-				    pList.add(p);
+			if(!dao.printerFilePath.trim().isEmpty()) {
+				for(Printer p: dao.printerList) {
+					if(p != null) {
+					    pList.add(p);
+					}
 				}
 			}
 		}
 		
 		if(iList.isEmpty()) {
-			for(Item i: dao.itemList) {
-				if(i != null) {
-				    iList.add(i);
+			if(!dao.itemFilePath.trim().isEmpty()) {
+				for(Item i: dao.itemList) {
+					if(i != null) {
+					    iList.add(i);
+					}
 				}
 			}
 		}
@@ -134,21 +138,7 @@ public class MainController implements Initializable{
 		
 		
 	}
-	@FXML
-	public void removeAll() {
-		printerTable.getItems().clear();
-		itemTable.getItems().clear();
-	}
-	@FXML
-	public void resetView() {
-		removeAll();
-		for(Printer p : printerList) {
-			printerList.remove(p);
-		}
-		for(Item i : itemList) {
-			itemList.remove(i);
-		}
-	}
+	
 	@FXML
 	public void buttonHandling() throws Exception, FileNotFoundException {
 //indecisive function, keeping in case we would like to go a different route with the mainView form		
@@ -171,6 +161,12 @@ public class MainController implements Initializable{
 		//a single button on the main form to pull the various data from the CSV's indicated
 		pullCSVs.setOnAction(e->{
 			//removeAll();
+			if(dao.itemFilePath.trim().isEmpty()) {
+				itemTable.getItems().clear();
+			}
+			if(dao.printerFilePath.trim().isEmpty()) {
+				printerTable.getItems().clear();
+			}
 			init();
 
 			//itemTable.setItems(null);
