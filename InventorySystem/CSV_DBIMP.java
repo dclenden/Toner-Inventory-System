@@ -19,71 +19,13 @@ import javax.swing.JOptionPane;
 
 public class CSV_DBIMP implements CSV_DB{
 	public boolean needInput = false;
-	public String printerFilePath = "test"; //= "printers.csv";
-	public String itemFilePath = "test";
+	public String printerFilePath = "printers.csv"; //= "printers.csv";
+	public String itemFilePath = "Wilmington Toner Database.csv";
 	public final String crossWalk = "crosswalk.csv";
-//	static String updatePrinterFilePath = "";
-//	static String updateItemFilePath = "";
 	public Printer[] printerList = new PrinterImp[457];//457
 	public Item[] itemList = new ItemImp[62];//62 or 61
 	public HashMap<Integer, Printer> printerAccess = new HashMap<>();
 	public HashMap<String, Item> itemAccess = new HashMap<>();
-	//main method was created for development testing
-	public static void main(String[] args) throws IOException{
-		CSV_DBIMP dao = new CSV_DBIMP();
-		dao.storePrinterCSV("printers.csv");
-		dao.storeItemCSV("Wilmington Toner DatabaseORIGINAL.csv");
-		//dao.readPrinterCSV();
-		dao.readItemCSV();
-		//dao.readCrossWalk();
-		for(Printer p : dao.printerList) {
-			//System.out.println(p);
-			//System.out.println(p.getCompatibleToners());
-		}
-		System.out.println(dao.orderList());
-//		dao.storePrinterCSV("printers.csv");
-//		dao.readPrinterCSV();
-//		dao.storeItemCSV("Wilmington Toner Database.csv");
-//		dao.readItemCSV();
-//		dao.updateCSVs();
-//		//storePrinterCSV();
-//		//printerFilePath = JOptionPane.showInputDialog("Please enter CSV File Name");
-//		//readPrinterCSV();
-//		//readItemCSV();
-//		CSV_DBIMP dao = new CSV_DBIMP();
-//		//dao.readPrinterCSV();
-//		//dao.addItem(new ItemImp("a", "b", "c", 0, 0));
-//		//System.out.println(dao.getAllItems());
-//	    //dao.deleteItem("c");
-//	    //System.out.println(dao.getAllItems());
-//		int rand = (int)(Math.random() * 62);
-//		Item testItem = new ItemImp();
-//		//dao.readPrinterCSV("waht");
-//		for(int i = 0; i < dao.itemList.length; i++) {
-//		    dao.addItem(testItem);
-//		}
-//		System.out.println(dao.getAllItems());
-//		dao.itemList[rand] = new ItemImp("a", "b", "c", 0, 0);
-//		Item tesItem = dao.getItem("c");
-//		System.out.println(rand + " " + tesItem);
-//	    
-//		//CSV_DBIMP dao1 = new CSV_DBIMP();
-//		//Item what = new ItemImp();
-//		//dao.itemList[0] = what;
-//		//System.out.println(dao.itemList[0]);
-//		//dao.deleteItem(what);
-//		///System.out.println(dao.itemList[0]);
-//		//dao.readPrinterCSV();
-//		//dao.addItem(new ItemImp());
-//		//dao.getAllItems();
-//		//System.out.println(dao.getAllPrinters().toString());
-//		//System.out.println(dao.getAllItems().toString());
-//		//System.out.println(Arrays.toString(printerList));
-//		//System.out.println(printerFilePath);
-//		//System.out.println(printerMap.toString());
-//		//System.out.println(Arrays.toString(itemList));
-//		//System.out.println(printerMap.toString());
-	}
 	
 	public CSV_DBIMP() {
 		
@@ -125,12 +67,9 @@ public class CSV_DBIMP implements CSV_DB{
 	}
 	//reads printers from CSV and assigns them to array associated with that type of object
 	
-	// added method to read crosswalk between toners and printers, (currently throws error but doesn't prevent data from being
-	// read, this error should be fixed when possible (low priority)
+	//nothing is done with this data per requirements but
 	public void readCrossWalk() {
 		BufferedReader br = null;
-		int printerCount = 0;
-		int start = 0;
 		try
 		{
 			br = new BufferedReader(new FileReader(crossWalk));
@@ -214,23 +153,8 @@ public class CSV_DBIMP implements CSV_DB{
 	public void readPrinterCSV() {
 		BufferedReader br = null;
 		int printerCount = 0;
-		File temp;
-	      try
-	      {
-	         temp = new File(printerFilePath);
-	         if(!temp.exists()) {
-		         while(!temp.exists()) {
-			 	    temp.delete();
-		        	storePrinterCSV();
-		            temp = new File(printerFilePath);
-		        	
-		 		 }
-	         }
-	         
-	      }
-	      catch (Exception e) {
-	         e.printStackTrace();
-	      }
+		//File temp;
+	      
 		try
 		{
 			br = new BufferedReader(new FileReader(printerFilePath));
@@ -278,22 +202,7 @@ public class CSV_DBIMP implements CSV_DB{
 	public void readItemCSV() {
 		BufferedReader br = null;
 		int itemCount = 0;
-		File temp;
-	      try
-	      {
-	         temp = new File(itemFilePath);
-	         if(!temp.exists()) {
-		         while(!temp.exists()) {
-			 	    temp.delete();
-		        	storeItemCSV();
-		            temp = new File(itemFilePath);
-		        	
-		 		 }
-	         }
-	      }
-	      catch(Exception ee) {
-	    	  ee.printStackTrace();
-	      }
+	      
 		try
 		{
 			br = new BufferedReader(new FileReader(itemFilePath));
@@ -341,132 +250,7 @@ public class CSV_DBIMP implements CSV_DB{
 			}
 		}
 	}
-	//may use this method in order to add more abstraction to the code base, but have not fully decided yet
-	/*public void readCSV(String csv) {
-	BufferedReader br = null;
-	File temp;
-	if(csv.equals("printer")) {
-		int printerCount = 0;
-		try
-	      {
-	         temp = new File(printerFilePath);
-	         if(!temp.exists()) {
-		         while(!temp.exists()) {
-			 	    temp.delete();
-		        	storePrinterCSV();
-		            temp = new File(printerFilePath);
-		        	
-		 		 }
-	         }
-	         
-	      }
-	      catch (Exception e) {
-	         e.printStackTrace();
-	      }
-		try
-		{
-			br = new BufferedReader(new FileReader(printerFilePath));
-			String line = "";
-			br.readLine();
-			while ((line = br.readLine()) != null) 
-			{
-				String[] printerDetails = line.split(",");
-
-				if(printerDetails.length > 0 && !printerDetails[0].isEmpty())
-				{
-					Printer tempPrinter = new PrinterImp(printerDetails[0], printerDetails[3], printerDetails[7]
-							, printerDetails[5], printerDetails[1], printerDetails[2], printerDetails[4]);
-                    printerMap.put(printerDetails[0], tempPrinter);
-					this.printerList[printerCount++] = tempPrinter;
-				}
-			}
-		}
-		
-		catch(ArrayIndexOutOfBoundsException ee) {
-			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
-		}
-		catch(NumberFormatException e) {
-			throw new NumberFormatException("Incorrect file format"); 
-		}
-		
-		catch(Exception ee)
-		{
-			ee.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				br.close();
-			}
-			catch(IOException ie)
-			{
-				System.out.println("Error occured while closing the BufferedReader");
-				ie.printStackTrace();
-			}
-		}
-	}
-	else if(csv.equals("item")){
-		int itemCount = 0;
-		try
-	      {
-	         temp = new File(itemFilePath);
-	         if(!temp.exists()) {
-		         while(!temp.exists()) {
-			 	    temp.delete();
-		        	storeItemCSV();
-		            temp = new File(itemFilePath);
-		        	
-		 		 }
-	         }
-	      }
-	      catch(Exception ee) {
-	    	  ee.printStackTrace();
-	      }
-		try
-		{
-			br = new BufferedReader(new FileReader(itemFilePath));
-			String line = "";
-			br.readLine();
-			while ((line = br.readLine()) != null) 
-			{
-				String[] itemDetails = line.split(",");
-
-				if(itemDetails.length > 0 && !itemDetails[0].isEmpty())
-				{
-					Item tempItem = new ItemImp(itemDetails[0], itemDetails[1], itemDetails[2]
-							, Integer.parseInt(itemDetails[4]), Integer.parseInt(itemDetails[5]));
-					
-					this.itemList[itemCount++] = tempItem;
-					
-				}
-			}
-		}
-
-		catch(ArrayIndexOutOfBoundsException e) {
-			throw new ArrayIndexOutOfBoundsException("Incorrect file format");
-		}
-        catch(NumberFormatException e) {
-        	throw new NumberFormatException("Incorrect file format");
-        }
-		catch(Exception ee)
-		{
-			ee.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				br.close();
-			}
-			catch(IOException ie)
-			{
-				System.out.println("Error occured while closing the BufferedReader");
-				ie.printStackTrace();
-			}
-		}
-	}
-}*/
+	
 	@Override
 	public ArrayList<Item> getAllItems() {
 		ArrayList<Item> allItems = new ArrayList<Item>();
@@ -639,75 +423,9 @@ public class CSV_DBIMP implements CSV_DB{
 	        bw.write(sb.toString());
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
-	    }
-//		File printerFile = new File(printerFilePath);
-//		File itemFile = new File(itemFilePath);
-//		if(printerFile.exists()) {
-//				FileInputStream printerinstream = null;
-//				FileOutputStream printeroutstream = null;
-//			 
-//		    	try{
-//		    		File printeroutfile = new File(printerFilePath);//null;
-//		    		
-//		    		printerinstream = new FileInputStream(printerFile);
-//		    		printeroutstream = new FileOutputStream(printeroutfile);
-//		 
-//		    	    byte[] printerbuffer = new byte[1024];
-//		    	    int length;
-//		    	    /*copying the contents from input stream to
-//		    	     * output stream using read and write methods
-//		    	     */
-//		    	    while ((length = printerinstream.read(printerbuffer)) > 0){
-//		    	    	printeroutstream.write(printerbuffer, 0, length);
-//		    	    }
-//	
-//		    	    //Closing the input/output file streams
-//		    	    printerinstream.close();
-//		    	    printeroutstream.close();
-//		    	    System.out.println("CSV replaced");
-//	
-//			 
-//		    	}
-//		    	catch(IOException ioe){
-//		    		ioe.printStackTrace();
-//		    	}
-//		}
-//		
-//		if(itemFile.exists()) {
-//			FileInputStream iteminstream = null;
-//			FileOutputStream itemoutstream = null;
-//		 
-//	    	try{
-//	    		File itemoutfile = new File(itemFilePath);
-//	    		iteminstream = new FileInputStream(itemFile);
-//	    		itemoutstream = new FileOutputStream(itemoutfile);
-//	 
-//	    	    byte[] itembuffer = new byte[1024];
-//	    	    int length;
-//	    	    /*copying the contents from input stream to
-//	    	     * output stream using read and write methods
-//	    	     */
-//	    	    while ((length = iteminstream.read(itembuffer)) > 0){
-//	    	    	itemoutstream.write(itembuffer, 0, length);
-//	    	    }
-//	
-//	    	    //Closing the input/output file streams
-//	    	    iteminstream.close();
-//	    	    itemoutstream.close();
-//	
-//	    	    System.out.println("CSV replaced");
-//		 
-//	    	}
-//	    	catch(IOException ioe){
-//	    		ioe.printStackTrace();
-//	    	}
-//		 }
-//		else {
-//			 System.out.println("Verification error");
-//			 return;
-//		}
-	}
+	      }
+	   }
 			
 	
-}
+    }
 }

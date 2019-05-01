@@ -89,8 +89,8 @@ public class orderViewController implements Initializable{
 	  		try (FileWriter writer = new FileWriter(f);
 	  		             BufferedWriter bw = new BufferedWriter(writer)) {
 	          	StringBuilder sb = new StringBuilder();
-	  	        Iterator<Item> it = orderList.iterator();
-	  	        System.out.println(it);
+	  	        Iterator<Item> it = MainController.iList.iterator();
+	  	        //System.out.println(it);
 	  	        //appends header to csv file
 	  	        sb.append("PrinterModel" + "," + "Brand" + "," + "Model" + "," + "Printers" + "," 
 	  	        + "MinStock" + "," + "CurStock" + "," + "Order" + "," + "Needed" +"\n");
