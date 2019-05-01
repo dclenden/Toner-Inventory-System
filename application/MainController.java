@@ -76,22 +76,33 @@ public class MainController implements Initializable{
 	@FXML public static ArrayList<Item> iList = new ArrayList<Item>();
 	static CSV_DBIMP dao = new CSV_DBIMP();
 	@FXML public static ArrayList<Printer> pList = new ArrayList<Printer>();
-	//static{init();}
+	
 	public static void init() {
-		//dao.storePrinterCSV("printers.csv");
-		//dao.storeItemCSV("WilmingtonTonerTEST2.csv");
-		//dao.storePrinterCSV("printers.csv");
+		
+		if(dao.printerList.length != 0) {
+			pList.clear();
+		}
+		
+		if(dao.itemList.length != 0) {
+			iList.clear();
+		}
+		
 		dao.readPrinterCSV();
+		dao.readItemCSV();
+		
 		if(pList.isEmpty()) { //BUG: duplicates entry's when clicking the pull button in mainView [FIXED: (4/22/2019)]
 			for(Printer p: dao.printerList) {
-				pList.add(p);
+				if(p != null) {
+				    pList.add(p);
+				}
 			}
 		}
-		//System.out.println("PRINTERS:" + pList.size() + "Items" + iList.size());
-		dao.readItemCSV();
+		
 		if(iList.isEmpty()) {
 			for(Item i: dao.itemList) {
-				iList.add(i);
+				if(i != null) {
+				    iList.add(i);
+				}
 			}
 		}
 	}
@@ -123,16 +134,24 @@ public class MainController implements Initializable{
 		
 		
 	}
-	//TODO: Add function to update CSV Files
+	@FXML
+	public void removeAll() {
+		printerTable.getItems().clear();
+		itemTable.getItems().clear();
+	}
+	@FXML
+	public void resetView() {
+		removeAll();
+		for(Printer p : printerList) {
+			printerList.remove(p);
+		}
+		for(Item i : itemList) {
+			itemList.remove(i);
+		}
+	}
 	@FXML
 	public void buttonHandling() throws Exception, FileNotFoundException {
 //indecisive function, keeping in case we would like to go a different route with the mainView form		
-//		deleteButton.setOnAction(e-> {
-//			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
-//			dao.deleteItem(selectedItem.getModel());
-//			itemTable.getItems().remove(selectedItem);
-//			System.out.println(selectedItem);
-//		});
 		//This will take you to the "EditItem" form in which you can add / delete various items
 		addItemView.setOnAction(e-> {
 			try {
@@ -151,8 +170,10 @@ public class MainController implements Initializable{
 		});
 		//a single button on the main form to pull the various data from the CSV's indicated
 		pullCSVs.setOnAction(e->{
+			//removeAll();
 			init();
-			itemTable.setItems(null);
+
+			//itemTable.setItems(null);
 			printerList = FXCollections.observableArrayList(pList);
 			itemList = FXCollections.observableArrayList(iList);
 			printerTable.setItems(printerList);
@@ -178,7 +199,7 @@ public class MainController implements Initializable{
 			FileChooser fc = new FileChooser();
 			File selectedFile = fc.showOpenDialog(null);
 			if(selectedFile != null) {
-				dao.storePrinterCSV(selectedFile.getName());
+				dao.storePrinterCSV(selectedFile.getAbsolutePath());
 			}
 			else {
 				try {
@@ -192,7 +213,7 @@ public class MainController implements Initializable{
 			FileChooser fc = new FileChooser();
 			File selectedFile = fc.showOpenDialog(null);
 			if(selectedFile != null) {
-				dao.storeItemCSV(selectedFile.getName());
+				dao.storeItemCSV(selectedFile.getAbsolutePath());
 			}
 			else {
 				try {
@@ -202,28 +223,6 @@ public class MainController implements Initializable{
 				}
 			}
 		});
-//		refreshButton.setOnAction(e->{
-//			String printerFilePath = dao.printerFilePath;
-//			String itemFilePath = dao.itemFilePath;
-//			dao.storeItemCSV("reset");
-//			dao.storePrinterCSV("reset");
-//			dao.storeItemCSV(itemFilePath);
-//			dao.storePrinterCSV(printerFilePath);
-//			printerList = FXCollections.observableArrayList(pList);
-//			itemList = FXCollections.observableArrayList(iList);
-//			printerTable.setItems(printerList);
-//			itemTable.setItems(itemList);
-//			itemTable.refresh();
-//		
-//		});
-//		updateCSVButton.setOnAction(e->{
-//			try {
-//				dao.updateCSVs();
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
-//			
-//		});
         
 		orderItemList.setOnAction(e->{
 			orderViewController.itemsList = FXCollections.observableArrayList(dao.orderList());
